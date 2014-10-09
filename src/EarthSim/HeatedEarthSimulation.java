@@ -1,18 +1,39 @@
-
+/**
+ * Created by Subha Melapalayam
+ */
 package EarthSim;
 
-public class HeatedEarthSimulation
+public class HeatedEarthSimulation implements Runnable
 {
+	double[][] gridcells;
 	
+	int timeInterval=0;
+	HeatedEarthHelper util;
 	
-	
-	//create an array of rowsXcols of GridCells.
-	
-	GridCell[][] gridcells = new GridCell[6][4]; //replace 6 and 4 with actual rows and cols
-	
-	public GridCell getNorth(int i, int j)
+	public HeatedEarthSimulation(int gs, int interval)
 	{
-		return null; //replace with the information provided in the domain model
+		 
+		 timeInterval = interval;
+		 util = new HeatedEarthHelper(gs);
+		 gridcells = new double[util.getRows()][util.getCols()];
+	}
+	
+	
+
+	//Initialize GridCells.
+	public void Initialize()
+	{
+		
+	}
+	 
+	
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		// Add code to compute diffusion
+		// What is the stabilization criteria?
+		
 	}
 	
 }

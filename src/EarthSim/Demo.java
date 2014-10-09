@@ -2,6 +2,8 @@ package EarthSim;
 
 public class Demo
 {
+	private int gridSpacing; //1 to 180- input provided by the user
+	private int timeInterval=1; //1 to 1440 - input provided by the user
 	
 	public static void main(String[] args) {
 	
