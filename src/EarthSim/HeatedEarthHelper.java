@@ -108,8 +108,17 @@ public class HeatedEarthHelper
 		return calcCArea(row)/esurfaceArea;
 	}
 	
+	public int getXCoordinate(int col)
+	{
+		int cols = getCols();
+		return (int) ((col+(cols/2))%cols-((cols/2)-1)*(ecircumference/cols));
+	}
 	
-	
+	public int getYCoordinate(int row)
+	{
+		int rows = getRows();
+		return (int) ((row-(rows/2))*(ecircumference/rows));
+	}
 	
 	
 	
@@ -120,6 +129,10 @@ public class HeatedEarthHelper
 		return 0;
 		
 	}
+	
+	//Identify cell location based on rotation.
+	
+	
 	
 	//TODO : Add code for solar heating, cooling , attenuation.
 	

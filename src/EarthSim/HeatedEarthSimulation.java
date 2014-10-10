@@ -5,17 +5,20 @@ package EarthSim;
 
 public class HeatedEarthSimulation implements Runnable
 {
-	double[][] gridcells;
+	GridCell[][] gridcells;
 	
 	int timeInterval=0;
 	HeatedEarthHelper util;
+	GridCell gc;
 	
 	public HeatedEarthSimulation(int gs, int interval)
 	{
 		 
 		 timeInterval = interval;
 		 util = new HeatedEarthHelper(gs);
-		 gridcells = new double[util.getRows()][util.getCols()];
+		 gridcells = new GridCell[util.getRows()][util.getCols()];
+		 
+		
 	}
 	
 	
@@ -23,7 +26,28 @@ public class HeatedEarthSimulation implements Runnable
 	//Initialize GridCells.
 	public void Initialize()
 	{
-		
+	
+		for (int i =0; i<util.getRows(); i++)
+		{
+			for(int j=0; j<util.getCols(); j++)
+			{
+				 //gc = gridcells[i][j];
+				 gridcells[i][j].setLatitude(util.getOriginLatitude(i));
+				 gridcells[i][j].setLongtitude(util.getOriginLongtitude(j));
+				 gridcells[i][j].setLt(util.calcCTop(i));
+				 gridcells[i][j].setLb(util.calcCBase(i));
+				 gridcells[i][j].setLv(util.calcCVerticalSide());
+				 gridcells[i][j].setArea(util.calcCArea(i));
+				 gridcells[i][j].setPerimeter(util.calcCPerimeter(i));
+				 gridcells[i][j].setH(util.calcCHeight(i));
+				 gridcells[i][j].setProportion(util.calcCSurfaceArea(i));
+				 gridcells[i][j].setxCoordinate(util.getXCoordinate(j));
+				 gridcells[i][j].setyCoordinate(util.getYCoordinate(i));
+				 
+				 //TODO: set previous temperature of the cell, current temperature, and neighbors.
+				 
+			}
+		}
 	}
 	 
 	
