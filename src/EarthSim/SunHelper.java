@@ -41,12 +41,12 @@ public class SunHelper {
 		
 		double relativeTemperatureFactor = cellTemperature/averageCellTemperature;
 		
-		double temperatureFromCooling = relativeSizeFactor*-1  * relativeTemperatureFactor * averageCellTemperature; // might be 288 instead of avg cell temp
+		double temperatureFromCooling = relativeSizeFactor*-1  * relativeTemperatureFactor * 278; // might be 288 instead of avg cell temp
 		
 		
 		
 		
-		return 0;
+		return temperatureFromCooling;
 		
 	}
 	
@@ -55,13 +55,33 @@ public class SunHelper {
 	{
 		
 		double initialTemperature = cell.getTemp();
-		double temperatureDueToSun = 0;
-		double temperatureDueToCooling = 0;
+		double temperatureDueToSun = calculateTemperatureDueToSun(cell.getLatitude(), cell.getLongtitude());
+		double temperatureDueToCooling = calculateTemperatureDueToCooling();
+		
+		double temperateCooledPerHour = 23.16;
+		double timePassed = 1;
+		
+		double percentageOfCooling = temperatureDueToCooling / initialTemperature;
+		
+		double actualCooling = percentageOfCooling * temperateCooledPerHour * timePassed;
+		
 		double temperatureOfNeighbors = 0;
 		
+		double cellTemperature = initialTemperature;
+		
+		if ( temperatureDueToSun != 0.0 )
+		{
+			cellTemperature = (cellTemperature + temperatureDueToSun) / 2;
+		}
 		
 		
-		double cellTemperature = initialTemperature + calculateTemperatureDueToSun(cell.getLatitude(), cell.getLongtitude()) + calculateTemperatureDueToCooling() + temperatureOfNeighbors;
+		cellTemperature = cellTemperature + actualCooling;
+			
+		cellTemperature = (cellTemperature +  temperatureOfNeighbors) /2;
+		
+		
+		
+		
 		
 		return cellTemperature;
 	}
