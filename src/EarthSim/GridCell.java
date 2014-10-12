@@ -16,10 +16,9 @@ public class GridCell
     
     /** Add constructor getters and setters **/
     
-    public  GridCell()
+    public GridCell ()
     {
-               
-          
+    	
     }
 
 

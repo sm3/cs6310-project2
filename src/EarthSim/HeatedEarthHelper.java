@@ -1,11 +1,9 @@
-
-
+package EarthSim;
 /**
 * Created by Subha Melapalayam 
 * Date : 10/6/2014
 */
 
-package EarthSim;
 
 public class HeatedEarthHelper
 {
