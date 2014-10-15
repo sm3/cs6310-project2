@@ -1,4 +1,8 @@
 package EarthSim;
+
+import EarthSim.GridCell;
+import EarthSim.SunHelper;
+
 /**
 * Created by Subha Melapalayam 
 * Date : 10/6/2014
@@ -133,5 +137,38 @@ public class HeatedEarthHelper
 	
 	
 	//TODO : Add code for solar heating, cooling , attenuation.
+	
+	
+	public double calculateCellTemperature(GridCell cell)
+	{
+		
+		double initialTemperature = cell.getTemp();
+		double temperatureDueToSun = SunHelper.calculateTemperatureDueToSun(cell.getLatitude(), cell.getLongtitude());
+		double temperatureDueToCooling = SunHelper.calculateTemperatureDueToCooling();
+		
+		double temperateCooledPerHour = 23.16;
+		double timePassed = 1;
+		
+		double percentageOfCooling = temperatureDueToCooling / initialTemperature;
+		
+		double actualCooling = percentageOfCooling * temperateCooledPerHour * timePassed;
+		
+		double temperatureOfNeighbors = 0;
+		
+		double cellTemperature = initialTemperature;
+		
+		if ( temperatureDueToSun != 0.0 )
+		{
+			cellTemperature = (cellTemperature + temperatureDueToSun) / 2;
+		}
+		
+		
+		cellTemperature = cellTemperature + actualCooling;
+			
+		cellTemperature = (cellTemperature +  temperatureOfNeighbors) /2;
+
+		
+		return cellTemperature;
+	}
 	
 }

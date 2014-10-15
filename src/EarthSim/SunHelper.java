@@ -17,7 +17,7 @@ public class SunHelper {
 	 * 
 	 */
 	
-	public double calculateTemperatureDueToSun(double latitude, double longitude)
+	public static double calculateTemperatureDueToSun(double latitude, double longitude)
 	{
 		
 		return 288 * Math.cos(latitude) * Math.cos(longitude);
@@ -26,7 +26,7 @@ public class SunHelper {
 	
 
 	
-	public double calculateTemperatureDueToCooling()
+	public static double calculateTemperatureDueToCooling()
 	{
 		double area = 0;
 		double numberOfCells = 0;
@@ -78,10 +78,7 @@ public class SunHelper {
 		cellTemperature = cellTemperature + actualCooling;
 			
 		cellTemperature = (cellTemperature +  temperatureOfNeighbors) /2;
-		
-		
-		
-		
+
 		
 		return cellTemperature;
 	}
