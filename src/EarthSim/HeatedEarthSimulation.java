@@ -10,6 +10,7 @@ public class HeatedEarthSimulation implements Runnable
 	int timeInterval=0;
 	HeatedEarthHelper util;
 	GridCell gc;
+	private boolean running; //copied this from TestSimulator
 	
 	public HeatedEarthSimulation(int gs, int interval)
 	{
@@ -58,6 +59,11 @@ public class HeatedEarthSimulation implements Runnable
 		// Add code to compute diffusion
 		// What is the stabilization criteria?
 		
+	}
+	
+	//copied this from TestSimulator
+	public void setRunning(boolean running){
+		this.running=running;
 	}
 	
 }
