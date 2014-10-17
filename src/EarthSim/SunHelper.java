@@ -26,17 +26,17 @@ public class SunHelper {
 	
 
 	
-	public static double calculateTemperatureDueToCooling()
+	public static double calculateTemperatureDueToCooling(GridCell cell)
 	{
-		double area = 0;
-		double numberOfCells = 0;
+		double area = cell.getArea();  // earth area
+		double numberOfCells = 12;    // number of cells in the earth
 		double averageCellSize = area / numberOfCells; 
 		
-		double actualCellSize = 0;
+		double actualCellSize = cell.getArea();
 		
 		double relativeSizeFactor = actualCellSize / averageCellSize;
 		
-		double cellTemperature = 0;
+		double cellTemperature = cell.getTemp();
 		double averageCellTemperature = 0;
 		
 		double relativeTemperatureFactor = cellTemperature/averageCellTemperature;
@@ -51,12 +51,12 @@ public class SunHelper {
 	}
 	
 	
-	public double calculateCellTemperature(GridCell cell)
+	public static double calculateCellTemperature(GridCell cell)
 	{
 		
 		double initialTemperature = cell.getTemp();
 		double temperatureDueToSun = calculateTemperatureDueToSun(cell.getLatitude(), cell.getLongtitude());
-		double temperatureDueToCooling = calculateTemperatureDueToCooling();
+		double temperatureDueToCooling = calculateTemperatureDueToCooling(cell);
 		
 		double temperateCooledPerHour = 23.16;
 		double timePassed = 1;

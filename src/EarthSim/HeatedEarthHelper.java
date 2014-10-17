@@ -144,7 +144,7 @@ public class HeatedEarthHelper
 		
 		double initialTemperature = cell.getTemp();
 		double temperatureDueToSun = SunHelper.calculateTemperatureDueToSun(cell.getLatitude(), cell.getLongtitude());
-		double temperatureDueToCooling = SunHelper.calculateTemperatureDueToCooling();
+		double temperatureDueToCooling = SunHelper.calculateTemperatureDueToCooling(cell);
 		
 		double temperateCooledPerHour = 23.16;
 		double timePassed = 1;
