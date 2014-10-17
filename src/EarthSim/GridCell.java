@@ -190,6 +190,15 @@ public class GridCell
 	public void setyCoordinate(int yCoordinate) {
 		this.yCoordinate = yCoordinate;
 	}
+
+
+	public void setNeighbors(GridCell[][] gridcellsSurface1) {
+		
+		
+		
+		
+		
+	}
     
     
     
