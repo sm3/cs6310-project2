@@ -3,20 +3,22 @@
  */
 package EarthSim;
 
+import java.util.concurrent.BlockingQueue;
+
 public class HeatedEarthSimulation implements Runnable
 {
 	GridCell[][] gridcellsSurface1;
 	
 	GridCell[][] gridcellsSurface2;
-	
+	private BlockingQueue<Message> queue;
 	int timeInterval=0;
 	EarthRepresentation earthRepresentation;
 	GridCell gc;
 	private boolean running; //copied this from TestSimulator
 	
-	public HeatedEarthSimulation(int gs, int interval)
+	public HeatedEarthSimulation(int gs, int interval, BlockingQueue<Message> queue)
 	{
-		 
+		 this.queue=queue;
 		 timeInterval = interval;
 		 earthRepresentation = new EarthRepresentation(gs);
 		 gridcellsSurface1 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
@@ -66,7 +68,10 @@ public class HeatedEarthSimulation implements Runnable
 		// TODO Auto-generated method stub
 		// Add code to compute diffusion
 		// What is the stabilization criteria?
-		
+		while(running){
+			
+		//queue.put(new Message(grid,sunsLongitude));
+		}
 	}
 	
 	

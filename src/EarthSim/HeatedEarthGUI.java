@@ -331,7 +331,7 @@ public class HeatedEarthGUI extends JFrame {
 		//if(testing)
 			//sim = new TestSimulator(Integer.valueOf(gridSize.getText()),queue);
 		//sim.setTimeStep(Integer.valueOf(simTimeStep.getText()));
-		sim = new HeatedEarthSimulation(Integer.valueOf(gridSize.getText()),Integer.valueOf(simTimeStep.getText()));
+		sim = new HeatedEarthSimulation(Integer.valueOf(gridSize.getText()),Integer.valueOf(simTimeStep.getText()),queue);
 		updateTime();
 		if(simulatorOwnThread){	
 			new Thread()
