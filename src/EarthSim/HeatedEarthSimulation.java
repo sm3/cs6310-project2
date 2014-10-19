@@ -7,7 +7,6 @@ import java.util.concurrent.BlockingQueue;
 public class HeatedEarthSimulation implements Runnable
 {
 	GridCell[][] gridcellsSurface1;
-	
 	GridCell[][] gridcellsSurface2;
 	private BlockingQueue<Message> queue;
 	
@@ -26,6 +25,7 @@ public class HeatedEarthSimulation implements Runnable
 		 gridcellsSurface1 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
 		 gridcellsSurface2 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
 		
+		 Initialize();
 	}
 	
 	
@@ -44,12 +44,31 @@ public class HeatedEarthSimulation implements Runnable
 		}
 		
 		
+		for (int i =0; i<earthRepresentation.getRows(); i++)
+		{
+			for(int j=0; j<earthRepresentation.getCols(); j++)
+			{		
+				setNeighborsData(gridcellsSurface1, i, j );
+				setNeighborsData(gridcellsSurface2, i, j );	 
+			}
+		}
+		
 
+	}
+	
+	private void setNeighborsData(GridCell [][] grid, int i, int j)
+	{
+		GridCell cell = grid[i][j];
+		
+		cell.setNeighbors(grid);
 	}
 	
 	private void setGridData(GridCell [][] grid, int i, int j)
 	{
-		 GridCell cell = grid[i][j];
+		
+		GridCell cell =  new GridCell();
+		
+		
 		
 		
 		cell.setLatitude(earthRepresentation.getOriginLatitude(i));
@@ -61,13 +80,12 @@ public class HeatedEarthSimulation implements Runnable
 		cell.setPerimeter(earthRepresentation.calcCPerimeter(i));
 		cell.setH(earthRepresentation.calcCHeight(i));
 		cell.setProportion(earthRepresentation.calcCSurfaceArea(i));
-		cell.setxCoordinate(earthRepresentation.getXCoordinate(j));
-		cell.setyCoordinate(earthRepresentation.getYCoordinate(i));
+		cell.setxCoordinate(i);
+		cell.setyCoordinate(j);
 		 
 		 //TODO: set previous temperature of the cell, current temperature, and neighbors.
 		
-		cell.setNeighbors(grid);
-		
+		grid[i][j] = cell;
 	}
 	 
 	
@@ -80,8 +98,49 @@ public class HeatedEarthSimulation implements Runnable
 		
 		while(running){
 			
-		//queue.put(new Message(grid,sunsLongitude));
+			
+			
+		this.diffuse(gridcellsSurface1, gridcellsSurface2);
+		
+			
+		try {
+			
+			queue.put(new Message(prepareOutput(gridcellsSurface2),SunRepresentation.sunLocation));
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		
+		GridCell [][] temp = gridcellsSurface1;
+		
+		gridcellsSurface1 = gridcellsSurface2;
+		gridcellsSurface2 = temp;
+		temp = null;
+			
+			
+		}
+		
+	}
+	
+	private double [][] prepareOutput(GridCell [][] grid)
+	{
+		
+		double[][] gridOutput = new double[earthRepresentation.getRows()][earthRepresentation.getCols()];
+		
+		for (int i =0; i<earthRepresentation.getRows(); i++)
+		{
+			for(int j=0; j<earthRepresentation.getCols(); j++)
+			{		
+
+				gridOutput[i][j] = grid[i][j].getTemp();
+				
+			}
+		}
+		
+		
+		return gridOutput;
 		
 	}
 	
@@ -98,6 +157,14 @@ public class HeatedEarthSimulation implements Runnable
 				
 			}
 		}
+		
+		SunRepresentation.sunLocation = SunRepresentation.sunLocation + 15;
+		
+		if (SunRepresentation.sunLocation > 180)
+		{
+			SunRepresentation.sunLocation = 0;
+		}
+		
 	}
 	
 	//copied this from TestSimulator

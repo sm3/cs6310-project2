@@ -4,7 +4,7 @@ public class SunRepresentation {
 	
 	
 	
-	static double sunLocation = 0;
+	static long sunLocation = 0;
 	static final double sunHeatOutput = 278;
 	/*
 	 *     sun

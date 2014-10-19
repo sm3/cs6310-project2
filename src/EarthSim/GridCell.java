@@ -216,7 +216,7 @@ public class GridCell
 			cellLocation = 0;
 		}
 		
-		this.setNorth(gridcellsSurface[this.getxCoordinate()][cellLocation]);
+		this.setWest(gridcellsSurface[this.getxCoordinate()][cellLocation]);
 	}
 	
 	
@@ -230,7 +230,7 @@ public class GridCell
 			cellLocation = cols - 1;
 		}
 		
-		this.setNorth(gridcellsSurface[this.getxCoordinate()][cellLocation]);
+		this.setEast(gridcellsSurface[this.getxCoordinate()][cellLocation]);
 	}
 	
 	private void setSouthCell(GridCell[][] gridcellsSurface, int rows, int cols) 
@@ -243,7 +243,7 @@ public class GridCell
 			southCellLocation = 0;
 		}
 		
-		this.setNorth(gridcellsSurface[southCellLocation][this.getyCoordinate()]);
+		this.setSouth(gridcellsSurface[southCellLocation][this.getyCoordinate()]);
 	}
     
 
@@ -251,14 +251,16 @@ public class GridCell
 	private void setNorthCell(GridCell[][] gridcellsSurface, int rows, int cols) 
 	{
 	
-		int northCellLocation = this.getxCoordinate() - 1;
+		int cellLocation = this.getxCoordinate() - 1;
 		
-		if ( northCellLocation < 0 )
+		if ( cellLocation < 0 )
 		{
-			northCellLocation = rows -1;
+			cellLocation = rows -1;
 		}
 		
-		this.setNorth(gridcellsSurface[northCellLocation][this.getyCoordinate()]);
+//		System.out.println(cellLocation + " nc  " + this.getyCoordinate());
+		
+		this.setNorth(gridcellsSurface[cellLocation][this.getyCoordinate()]);
 	}
 	
 	public double getNeighborsAverageTemp()
