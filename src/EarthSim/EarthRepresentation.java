@@ -150,7 +150,7 @@ public class EarthRepresentation {
 		
 		double actualCooling = percentageOfCooling * temperateCooledPerHour * timePassed;
 		
-		double temperatureOfNeighbors = 0;
+		double temperatureOfNeighbors = cell.getNeighborsAverageTemp();
 		
 		double cellTemperature = initialTemperature;
 		

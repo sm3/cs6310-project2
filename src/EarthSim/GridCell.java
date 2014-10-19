@@ -192,11 +192,79 @@ public class GridCell
 	}
 
 
-	public void setNeighbors(GridCell[][] gridcellsSurface1) {
+	public void setNeighbors(GridCell[][] gridcellsSurface) {
+		
+		int rows = gridcellsSurface.length;
+		int cols = gridcellsSurface[0].length;
 		
 		
+		setNorthCell(gridcellsSurface, rows, cols);
+		setSouthCell(gridcellsSurface, rows, cols);
+		setEastCell(gridcellsSurface, rows, cols);
+		setWestCell(gridcellsSurface, rows, cols);
 		
 		
+	}
+	
+	private void setWestCell(GridCell[][] gridcellsSurface, int rows, int cols) 
+	{
+	
+		int cellLocation = this.getyCoordinate() + 1;
+		
+		if ( cellLocation > cols - 1 )
+		{
+			cellLocation = 0;
+		}
+		
+		this.setNorth(gridcellsSurface[this.getxCoordinate()][cellLocation]);
+	}
+	
+	
+	private void setEastCell(GridCell[][] gridcellsSurface, int rows, int cols) 
+	{
+	
+		int cellLocation = this.getyCoordinate() - 1;
+		
+		if ( cellLocation < 0 )
+		{
+			cellLocation = cols - 1;
+		}
+		
+		this.setNorth(gridcellsSurface[this.getxCoordinate()][cellLocation]);
+	}
+	
+	private void setSouthCell(GridCell[][] gridcellsSurface, int rows, int cols) 
+	{
+	
+		int southCellLocation = this.getxCoordinate() + 1;
+		
+		if ( southCellLocation > rows - 1 )
+		{
+			southCellLocation = 0;
+		}
+		
+		this.setNorth(gridcellsSurface[southCellLocation][this.getyCoordinate()]);
+	}
+    
+
+
+	private void setNorthCell(GridCell[][] gridcellsSurface, int rows, int cols) 
+	{
+	
+		int northCellLocation = this.getxCoordinate() - 1;
+		
+		if ( northCellLocation < 0 )
+		{
+			northCellLocation = rows -1;
+		}
+		
+		this.setNorth(gridcellsSurface[northCellLocation][this.getyCoordinate()]);
+	}
+	
+	public double getNeighborsAverageTemp()
+	{
+		
+		return (this.getNorth().getTemp() + this.getSouth().getTemp() + this.getEast().getTemp() + this.getWest().getTemp())/4.0 ;
 		
 	}
     

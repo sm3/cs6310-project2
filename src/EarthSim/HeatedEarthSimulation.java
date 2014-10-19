@@ -22,7 +22,7 @@ public class HeatedEarthSimulation implements Runnable
 		 timeInterval = interval;
 		 earthRepresentation = new EarthRepresentation(gs);
 		 gridcellsSurface1 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
-		 
+		 gridcellsSurface2 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
 		
 	}
 	
@@ -35,30 +35,37 @@ public class HeatedEarthSimulation implements Runnable
 		for (int i =0; i<earthRepresentation.getRows(); i++)
 		{
 			for(int j=0; j<earthRepresentation.getCols(); j++)
-			{
-				 //gc = gridcells[i][j];
-				gridcellsSurface1[i][j].setLatitude(earthRepresentation.getOriginLatitude(i));
-				gridcellsSurface1[i][j].setLongtitude(earthRepresentation.getOriginLongtitude(j));
-				gridcellsSurface1[i][j].setLt(earthRepresentation.calcCTop(i));
-				gridcellsSurface1[i][j].setLb(earthRepresentation.calcCBase(i));
-				gridcellsSurface1[i][j].setLv(earthRepresentation.calcCVerticalSide());
-				gridcellsSurface1[i][j].setArea(earthRepresentation.calcCArea(i));
-				gridcellsSurface1[i][j].setPerimeter(earthRepresentation.calcCPerimeter(i));
-				gridcellsSurface1[i][j].setH(earthRepresentation.calcCHeight(i));
-				gridcellsSurface1[i][j].setProportion(earthRepresentation.calcCSurfaceArea(i));
-				gridcellsSurface1[i][j].setxCoordinate(earthRepresentation.getXCoordinate(j));
-				gridcellsSurface1[i][j].setyCoordinate(earthRepresentation.getYCoordinate(i));
-				 
-				 //TODO: set previous temperature of the cell, current temperature, and neighbors.
-				
-				gridcellsSurface1[i][j].setNeighbors(gridcellsSurface1);
-				
-				 
+			{		
+				setGridData(gridcellsSurface1, i, j );
+				setGridData(gridcellsSurface2, i, j );	 
 			}
 		}
 		
 		
 
+	}
+	
+	private void setGridData(GridCell [][] grid, int i, int j)
+	{
+		 GridCell cell = grid[i][j];
+		
+		
+		cell.setLatitude(earthRepresentation.getOriginLatitude(i));
+		cell.setLongtitude(earthRepresentation.getOriginLongtitude(j));
+		cell.setLt(earthRepresentation.calcCTop(i));
+		cell.setLb(earthRepresentation.calcCBase(i));
+		cell.setLv(earthRepresentation.calcCVerticalSide());
+		cell.setArea(earthRepresentation.calcCArea(i));
+		cell.setPerimeter(earthRepresentation.calcCPerimeter(i));
+		cell.setH(earthRepresentation.calcCHeight(i));
+		cell.setProportion(earthRepresentation.calcCSurfaceArea(i));
+		cell.setxCoordinate(earthRepresentation.getXCoordinate(j));
+		cell.setyCoordinate(earthRepresentation.getYCoordinate(i));
+		 
+		 //TODO: set previous temperature of the cell, current temperature, and neighbors.
+		
+		cell.setNeighbors(grid);
+		
 	}
 	 
 	
