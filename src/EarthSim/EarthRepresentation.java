@@ -44,20 +44,23 @@ public class EarthRepresentation {
 	public double getOriginLatitude(int row)
 	{
 		// i = 0  gs = 15   expected lat = 82.5
+		
+		
+		// logic needed for odd rows *****
 
 		double initialSpace = gs/2;
 		
 		double oLat = 0;
 
-		if (row < this.getRows())
-		{
+//		if (row < this.getRows()/2)
+//		{
 			oLat = 90 - (initialSpace + (gs* row) );
-		}
-		else
-		{
-			oLat = 90 - (initialSpace + (gs* (this.getRows() - row)) );
-		}
-	
+//		}
+//		else
+//		{
+//			oLat = 90 - (initialSpace + (gs* (this.getRows() - row) + 1) );
+//		}
+//	
 
 		return oLat;
 		
@@ -66,7 +69,27 @@ public class EarthRepresentation {
 	
 	public double getOriginLongtitude(int col)
 	{
-		double oLong = 360 - ((col+1)*gs);
+//		double oLong = (360 - ((col+1)*gs));
+//		
+//		if (oLong > 180)
+//		{
+//			oLong = oLong - 180;
+//		}
+		
+		double initialSpace = gs/2;
+		
+		double oLong = 0;
+
+//		if (col < this.getCols()/2)
+//		{
+			oLong = 180 - (initialSpace + (gs* col) );
+//		}
+//		else
+//		{
+//			oLong = 180 - (initialSpace + (gs* (this.getCols() - col + 1)) );
+//		}
+	
+
 		return oLong;
 		
 	}

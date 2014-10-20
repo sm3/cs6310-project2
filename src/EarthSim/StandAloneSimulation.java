@@ -36,6 +36,19 @@ public class StandAloneSimulation extends HeatedEarthSimulation {
 			}
 		}
 		
+		System.out.println(" ");
+		System.out.println(" ");
+		
+		
+		for (int i =0; i<earthRepresentation.getRows(); i++)
+		{
+			System.out.println(" ");
+			for(int j=0; j<earthRepresentation.getCols(); j++)
+			{		
+				System.out.print(gridcellsSurface1[i][j].getLatitude() +", " + gridcellsSurface1[i][j].getLongtitude() + " ; ");
+			}
+		}
+		
 	}
 
 }
