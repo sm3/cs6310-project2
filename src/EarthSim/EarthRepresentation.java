@@ -10,6 +10,7 @@ public class EarthRepresentation {
 	private int gs;
 	private int p; //proportion of equator used by one unit of gs
 	
+	private double averageTemperature = 288;
 	
 	//add method to get grid proportion to the equator
 	
@@ -18,7 +19,7 @@ public class EarthRepresentation {
 	public EarthRepresentation (int gridSpacing)
 	{
 		this.gs= gridSpacing;
-		p= 360/gs;
+		p = 360/gs;
 	}
 	public int getCols()
 	{
@@ -36,10 +37,28 @@ public class EarthRepresentation {
 	   
 	}
 	
+	
+	private double initialSpace = gs/2;
+	
 	//Origin of a cell is the lower left hand corner. 
 	public double getOriginLatitude(int row)
 	{
-		double oLat = (row-((180/gs)/2))*gs;
+		// i = 0  gs = 15   expected lat = 82.5
+
+		double initialSpace = gs/2;
+		
+		double oLat = 0;
+
+		if (row < this.getRows())
+		{
+			oLat = 90 - (initialSpace + (gs* row) );
+		}
+		else
+		{
+			oLat = 90 - (initialSpace + (gs* (this.getRows() - row)) );
+		}
+	
+
 		return oLat;
 		
 	}
@@ -135,6 +154,28 @@ public class EarthRepresentation {
 	
 	//TODO : Add code for solar heating, cooling , attenuation.
 	
+	public void calculateAverageTemperature(GridCell [][] grid)
+	{
+		
+		double totalCellTemp = 0; 
+		
+		for (int i =0; i<this.getRows(); i++)
+		{
+			
+			for(int j=0; j<this.getCols(); j++)
+			{		
+				totalCellTemp = totalCellTemp + grid[i][j].getTemp();
+			}
+		}
+		
+		this.averageTemperature = totalCellTemp / this.getNumberOfCells();
+		
+	}
+	
+	public double getAverageTemperature()
+	{
+		return this.averageTemperature;
+	}
 	
 	public double calculateCellTemperature(GridCell cell)
 	{
@@ -159,11 +200,25 @@ public class EarthRepresentation {
 			cellTemperature = (cellTemperature + temperatureDueToSun) / 2;
 		}
 		
+		if (Double.isNaN(cellTemperature) )
+		{
+			
+			System.out.println("nan sun ");
+			
+		}
+		
+		
 		
 		cellTemperature = cellTemperature + actualCooling;
 			
 		cellTemperature = (cellTemperature +  temperatureOfNeighbors) /2;
 
+		if (Double.isNaN(cellTemperature) )
+		{
+			
+			System.out.println("nan final ");
+			
+		}
 		
 		return cellTemperature;
 	}

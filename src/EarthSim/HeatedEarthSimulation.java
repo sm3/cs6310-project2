@@ -6,12 +6,12 @@ import java.util.concurrent.BlockingQueue;
 
 public class HeatedEarthSimulation implements Runnable
 {
-	GridCell[][] gridcellsSurface1;
-	GridCell[][] gridcellsSurface2;
+	static GridCell[][] gridcellsSurface1;
+	static GridCell[][] gridcellsSurface2;
 	private BlockingQueue<Message> queue;
 	
 	int timeInterval=0;
-	EarthRepresentation earthRepresentation;
+	static EarthRepresentation earthRepresentation;
 	GridCell gc;
 	private boolean running; //copied this from TestSimulator
 	
@@ -82,6 +82,7 @@ public class HeatedEarthSimulation implements Runnable
 		cell.setProportion(earthRepresentation.calcCSurfaceArea(i));
 		cell.setxCoordinate(i);
 		cell.setyCoordinate(j);
+		cell.setTemp(288);
 		 
 		 //TODO: set previous temperature of the cell, current temperature, and neighbors.
 		
@@ -145,8 +146,10 @@ public class HeatedEarthSimulation implements Runnable
 	}
 	
 	
-	private void diffuse(GridCell[][] grid1, GridCell[][] grid2)
+	protected static void diffuse(GridCell[][] grid1, GridCell[][] grid2)
 	{
+		
+		earthRepresentation.calculateAverageTemperature(grid1);
 		
 		for (int i =0; i<earthRepresentation.getRows(); i++)
 		{

@@ -24,7 +24,7 @@ public class SunRepresentation {
 		
 		double cellLongitudeFromSun = 0;
 				
-		if ( Math.abs(sunLocation - cell.getLongtitude()) >= 90)
+		if ( Math.abs (sunLocation - Math.abs( cell.getLongtitude())) >= 90)
 		{
 			cellLongitudeFromSun = 90;
 		}
@@ -50,7 +50,7 @@ public class SunRepresentation {
 		double relativeSizeFactor = actualCellSize / averageCellSize;
 		
 		double cellTemperature = cell.getTemp();
-		double averageCellTemperature = 0;
+		double averageCellTemperature = earthRepresentation.getAverageTemperature();
 		
 		double relativeTemperatureFactor = cellTemperature/averageCellTemperature;
 		
