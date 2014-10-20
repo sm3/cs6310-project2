@@ -1,6 +1,4 @@
-/**
- * Created by Subha Melapalayam
- */
+
 package EarthSim;
 import java.util.concurrent.BlockingQueue;
 
