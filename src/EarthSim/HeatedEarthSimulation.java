@@ -85,6 +85,21 @@ public class HeatedEarthSimulation implements Runnable
 		 //TODO: set previous temperature of the cell, current temperature, and neighbors.
 		
 		grid[i][j] = cell;
+		
+		System.out.println("*********************************");
+	    System.out.println("gs , rows, cols : " + earthRepresentation.getGS() + " " + earthRepresentation.getRows() + " " + earthRepresentation.getCols());
+		System.out.println("Latitude :" + cell.getLatitude());
+		System.out.println("Longtitude :" + cell.getLongtitude());
+		System.out.println("top :" + cell.getLt());
+		System.out.println("base :" + cell.getLb());
+		System.out.println("vertical side :" + cell.getLv());
+		System.out.println("area :" + cell.getArea());
+		System.out.println("perimeter :" + cell.getPerimeter());
+		System.out.println("Height :" + cell.getH());
+		System.out.println("Surface area :" + cell.getProportion());
+		System.out.println("xCoordinate :" + cell.getxCoordinate());
+		System.out.println("yCoordinate :" + cell.getyCoordinate());
+		System.out.println("*********************************");
 	}
 	 
 	

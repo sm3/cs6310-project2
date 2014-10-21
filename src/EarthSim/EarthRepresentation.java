@@ -36,6 +36,10 @@ public class EarthRepresentation {
 	   return getRows()*getCols();
 	   
 	}
+	public int getGS()
+	{
+		return this.gs;
+	}
 	
 	
 	private double initialSpace = gs/2;
@@ -54,14 +58,15 @@ public class EarthRepresentation {
 
 //		if (row < this.getRows()/2)
 //		{
-			oLat = 90 - (initialSpace + (gs* row) );
+			//oLat = 90 - (initialSpace + (gs* row) );
 //		}
 //		else
 //		{
 //			oLat = 90 - (initialSpace + (gs* (this.getRows() - row) + 1) );
 //		}
 //	
-
+			 oLat = (row-(getRows()/2))*gs;
+				
 		return oLat;
 		
 	}
@@ -135,7 +140,7 @@ public class EarthRepresentation {
 		double lb = calcCBase(row);
 		double lt = calcCTop(row);
 		double h = calcCHeight(row);
-		return (1/2)*(lt+lb)*h;
+		return ((lt+lb)/2)*h;
 	}
 	
 	//proportion of earth's surface area taken by a cell
