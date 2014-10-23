@@ -53,12 +53,12 @@ public class HeatedEarthGUI extends JFrame {
 	private JLabel time = new JLabel();
 	private Long startTime;
 
-	public static void main(String[] args) {
-		HeatedEarthGUI gui = new HeatedEarthGUI(true,true,100);
-		gui.setTesting(true);
-		gui.displayGui();
-	}
-	public HeatedEarthGUI(boolean presentationThread, boolean simulatorOwnThread,Integer bufferSize)
+//	public static void main(String[] args) {
+//		HeatedEarthGUI gui = new HeatedEarthGUI(true,true,"G",100);
+//		gui.setTesting(true);
+//		gui.displayGui();
+//	}
+	public HeatedEarthGUI(boolean presentationThread, boolean simulatorOwnThread,String initiative,Integer bufferSize)
 	{
 		super();
 		this.presentationOwnThread=presentationThread;
@@ -328,9 +328,6 @@ public class HeatedEarthGUI extends JFrame {
 		queue.clear();
 		start.setIcon(new ImageIcon("images/pause.png"));
 		paused=false;
-		//if(testing)
-			//sim = new TestSimulator(Integer.valueOf(gridSize.getText()),queue);
-		//sim.setTimeStep(Integer.valueOf(simTimeStep.getText()));
 		sim = new HeatedEarthSimulation(Integer.valueOf(gridSize.getText()),Integer.valueOf(simTimeStep.getText()),queue);
 		updateTime();
 		if(simulatorOwnThread){	
@@ -339,7 +336,6 @@ public class HeatedEarthGUI extends JFrame {
 				@Override
 				public void run()
 				{
-					//sim.simulate()
 					sim.run();
 
 				}
@@ -347,7 +343,6 @@ public class HeatedEarthGUI extends JFrame {
 
 		}else{
 			sim.run();
-			//sim.simulate();
 		}
 		if(presentationOwnThread){
 			new Thread()

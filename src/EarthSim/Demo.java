@@ -42,7 +42,20 @@ public class Demo
     	 blen =1;
      }
      //add code to call simulation
-     
+     if(r && t){
+    	 System.out.println("Must specify only one component to have initiative.");
+         System.exit(1);
+     }
+     String initiative ="";
+     if(r)
+    	 initiative="P";
+     else if(t)
+    	 initiative="S";
+     else
+    	 initiative="G";
+    	 
+     HeatedEarthGUI gui = new HeatedEarthGUI(p, s, initiative, blen);
+     gui.displayGui();
 	 }
      
      
