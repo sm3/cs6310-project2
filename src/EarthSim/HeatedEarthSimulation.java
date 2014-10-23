@@ -109,7 +109,7 @@ public class HeatedEarthSimulation implements Runnable
 		// TODO Auto-generated method stub
 		// Add code to compute diffusion
 		// What is the stabilization criteria?
-		
+		running=true;
 		while(running){
 			
 			
