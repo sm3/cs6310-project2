@@ -25,6 +25,7 @@ public class HeatedEarthSimulation implements Runnable
 		 gridcellsSurface2 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
 		
 		 Initialize();
+		 running = true;
 	}
 	
 	
@@ -135,7 +136,7 @@ public class HeatedEarthSimulation implements Runnable
 			
 			
 			
-		this.diffuse(gridcellsSurface1, gridcellsSurface2);
+		diffuse(gridcellsSurface1, gridcellsSurface2);
 		
 			
 		try {
@@ -173,6 +174,7 @@ public class HeatedEarthSimulation implements Runnable
 			{		
 
 				gridOutput[i][j] = grid[i][j].getTemp();
+				//System.out.println(" temp for grid["+ i + "]["+ j+"]  "+ grid[i][j].getTemp());
 				
 			}
 		}
@@ -194,6 +196,7 @@ public class HeatedEarthSimulation implements Runnable
 			{		
 
 				grid2[i][j].setTemp(earthRepresentation.calculateCellTemperature(grid1[i][j]));
+				//System.out.println("Diffusion - cell temp :" + grid2[i][j].getTemp());
 				
 			}
 		}
