@@ -7,18 +7,20 @@ public class HeatedEarthSimulation implements Runnable
 	static GridCell[][] gridcellsSurface1;
 	static GridCell[][] gridcellsSurface2;
 	private BlockingQueue<Message> queue;
-	
 	static int timeInterval=0;
 	static int timeOfDay=0;
+	private HeatedEarthPresentation presentation=null;
 	static EarthRepresentation earthRepresentation;
 	GridCell gc;
+	int gridSize;
 	private boolean running; //copied this from TestSimulator
+	private boolean paused;
 	
 	
 	public HeatedEarthSimulation(int gs, int interval, BlockingQueue<Message> queue)
 	{
 		 this.queue=queue;
-		 
+		 this.gridSize=gs;
 		 timeInterval = interval;
 		 earthRepresentation = new EarthRepresentation(gs);
 		 gridcellsSurface1 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
@@ -27,8 +29,21 @@ public class HeatedEarthSimulation implements Runnable
 		 Initialize();
 		 running = true;
 	}
-	
-	
+	public void setGridSize(Integer size){
+		this.gridSize=size;
+	}
+	public void setPaused(boolean paused){
+		this.paused=paused;
+	}
+	public void reset(){
+		earthRepresentation = new EarthRepresentation(gridSize);
+		gridcellsSurface1 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
+		gridcellsSurface2 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
+		
+		Initialize();
+		running = true;
+		paused = false;
+	}
 
 	//Initialize GridCells.
 	public void Initialize()
@@ -113,14 +128,38 @@ public class HeatedEarthSimulation implements Runnable
 	}
 	 
 
+	public void setPresentation(HeatedEarthPresentation p){
+		presentation = p;
+	}
+	public void update(){
+		System.out.println("Simulation updating.");
+		this.diffuse(gridcellsSurface1, gridcellsSurface2);
+		
+		
+		try {
+			queue.put(new Message(prepareOutput(gridcellsSurface2),SunRepresentation.sunLocation));
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		GridCell [][] temp = gridcellsSurface1;
+		
+		gridcellsSurface1 = gridcellsSurface2;
+		gridcellsSurface2 = temp;
+		temp = null;
+	}
+
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		// Add code to compute diffusion
 		// What is the stabilization criteria?
 		running=true;
+		paused = false;
 		while(running){
-			
+			while(!paused){
 			
 			
 		diffuse(gridcellsSurface1, gridcellsSurface2);
@@ -129,7 +168,10 @@ public class HeatedEarthSimulation implements Runnable
 		try {
 			
 			queue.put(new Message(prepareOutput(gridcellsSurface2),SunRepresentation.sunLocation));
-			
+			if(presentation!=null){
+				System.out.println("Presentation update");
+				presentation.update();
+			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -142,7 +184,7 @@ public class HeatedEarthSimulation implements Runnable
 		gridcellsSurface2 = temp;
 		temp = null;
 			
-			
+			}
 		}
 		
 	}

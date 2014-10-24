@@ -11,16 +11,16 @@ public class Demo
 	    boolean  s, p, r, t, b; 
 	    s = p = r = t = b = false; 
 	   
-		 for (int i = 0; i < args.length-1; i++) {
-		        if (args[i].equals("-s")) {
+		 for (int i = 0; i < args.length; i++) {
+		        if (args[i].equalsIgnoreCase("-s")) {
 		            s = true;
-		        } else if (args[i].equals("-p")) {
+		        } else if (args[i].equalsIgnoreCase("-p")) {
 		        	p = true;
-		        } else if (args[i].equals("-r")) {
+		        } else if (args[i].equalsIgnoreCase("-r")) {
 		            r = true;
-		        } else if (args[i].equals("-t")) {
+		        } else if (args[i].equalsIgnoreCase("-t")) {
 		            t = true;
-		        } else if (args[i].equals("-b")) {
+		        } else if (args[i].equalsIgnoreCase("-b")) {
 		            try {
 		                blen = Integer.parseInt(args[i+1]);
 		                b = true;
