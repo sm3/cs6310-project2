@@ -36,29 +36,23 @@ public class HeatedEarthGUI extends JFrame {
 	private boolean simulatorOwnThread=true;
 	private boolean presentationOwnThread=true;
 	private BlockingQueue<Message> queue;
-	HeatedEarthPresentation display; 
-	//TestSimulator sim;
-	HeatedEarthSimulation sim;
+	private HeatedEarthPresentation display; 
+	private HeatedEarthSimulation sim;
+	private String initiative;
+	private Long startTime;
+	private boolean paused=false;
 
 
 	JButton runButton = new JButton("Run Simulation");
 	int textSize=30;
-	private boolean paused=false;
 	JTextField gridSize = new JTextField();
 	JTextField simTimeStep = new JTextField();
 	JTextField displayRate = new JTextField();
 	final JButton start = new JButton();
 	JPanel rightPanel = new JPanel();
-	private String initiative;
 	private boolean testing=false;
 	private JLabel time = new JLabel();
-	private Long startTime;
 
-//	public static void main(String[] args) {
-//		HeatedEarthGUI gui = new HeatedEarthGUI(true,true,"G",100);
-//		gui.setTesting(true);
-//		gui.displayGui();
-//	}
 	public HeatedEarthGUI(boolean presentationThread, boolean simulatorOwnThread,String initiative,Integer bufferSize)
 	{
 		super();
@@ -78,13 +72,13 @@ public class HeatedEarthGUI extends JFrame {
 		this.setResizable(false);
 		this.setVisible(true);
 		sim = new HeatedEarthSimulation(Integer.valueOf(gridSize.getText()),Integer.valueOf(simTimeStep.getText()),queue);
-		System.out.println(initiative);
+		//Set initiative 
 		if("S".equalsIgnoreCase(initiative)){
 			sim.setPresentation(display);
 		}else if("P".equalsIgnoreCase(initiative)){
-			System.out.println("setting sim on display");
 			display.setSimulation(sim);
 		}
+		display.setTime(time);
 
 	}
 	public void setTesting(boolean testing){
@@ -94,7 +88,6 @@ public class HeatedEarthGUI extends JFrame {
 	public JPanel createMainGrid(){
 		JPanel pane = new JPanel(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		//pane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		JLabel label = new JLabel();
 		label.setText("   ");
@@ -128,15 +121,15 @@ public class HeatedEarthGUI extends JFrame {
 					if(paused){
 						paused=false;
 						display.setPaused(false);
+						sim.setPaused(false);
 						start.setIcon(new ImageIcon("images/pause.png"));
-						updateTime();
 					}else{
 						paused=true;
 						display.setPaused(true);
+						sim.setPaused(true);
 						start.setIcon(new ImageIcon("images/play.png"));
 					}
 					repaint();
-					revalidate();	
 				}
 			}
 		});
@@ -155,7 +148,6 @@ public class HeatedEarthGUI extends JFrame {
 				queue.clear();
 				paused=true;
 				repaint();
-				revalidate();
 			}
 		});
 		displayControls.add(stop);
@@ -225,6 +217,10 @@ public class HeatedEarthGUI extends JFrame {
 				try
 				{
 					Integer value = Integer.valueOf(text);
+					while(180%value!=0){
+						value--;
+					}
+					gridSize.setText(value+"");
 					if (value < 0)
 					{
 						gridSize.setText("");
@@ -318,10 +314,9 @@ public class HeatedEarthGUI extends JFrame {
 				sim.setRunning(false);
 				queue.clear();
 				repaint();
-				revalidate();
-				
 				
 				display.setGridSize(Integer.valueOf(gridSize.getText()));
+				sim.setGridSize(Integer.valueOf(gridSize.getText()));
 				run();
 			}
 		});
@@ -333,11 +328,13 @@ public class HeatedEarthGUI extends JFrame {
 	
 	//runs both simulator and presentation
 	public void run(){
+		sim.reset();
+		display.reset();
 		startTime=(new Date()).getTime();
 		queue.clear();
 		start.setIcon(new ImageIcon("images/pause.png"));
 		paused=false;
-		updateTime();
+		
 		if(simulatorOwnThread){	
 			new Thread()
 			{
@@ -345,7 +342,6 @@ public class HeatedEarthGUI extends JFrame {
 				public void run()
 				{
 					if("S".equalsIgnoreCase(initiative) || "G".equalsIgnoreCase(initiative)){
-					System.out.println("Simulator thread");
 					sim.run();
 					}
 
@@ -360,7 +356,6 @@ public class HeatedEarthGUI extends JFrame {
 				@Override
 				public void run()
 				{	if("P".equalsIgnoreCase(initiative) || "G".equalsIgnoreCase(initiative)){
-						System.out.println("Presentation thread");
 						display.run();
 					}
 				}
@@ -368,30 +363,14 @@ public class HeatedEarthGUI extends JFrame {
 		}
 		if("P".equalsIgnoreCase(initiative) || "G".equalsIgnoreCase(initiative)){
 		if(!presentationOwnThread){
-			System.out.println("Presentation");
 			display.run();
 		}
 		}
 		if("S".equalsIgnoreCase(initiative) || "G".equalsIgnoreCase(initiative)){
 		if(!simulatorOwnThread){	
-			System.out.println("Simulator");
 			sim.run();
 		}
 		}
 	}
-	public void updateTime(){
-		new Thread()
-		{
-			@Override
-			public void run()
-			{
-				while(!paused){
-					Long runningTime = ((new Date()).getTime() - startTime)/1000;
-					 time.setText(runningTime.intValue() +" s");
-					 time.repaint();
-					 time.revalidate();
-				}
-			}
-		}.start();
-	 }
+
 }

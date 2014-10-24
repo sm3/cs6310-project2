@@ -12,13 +12,15 @@ public class HeatedEarthSimulation implements Runnable
 	int timeInterval=0;
 	static EarthRepresentation earthRepresentation;
 	GridCell gc;
+	int gridSize;
 	private boolean running; //copied this from TestSimulator
+	private boolean paused;
 	
 	
 	public HeatedEarthSimulation(int gs, int interval, BlockingQueue<Message> queue)
 	{
 		 this.queue=queue;
-		 
+		 this.gridSize=gs;
 		 timeInterval = interval;
 		 earthRepresentation = new EarthRepresentation(gs);
 		 gridcellsSurface1 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
@@ -27,8 +29,21 @@ public class HeatedEarthSimulation implements Runnable
 		 Initialize();
 		 running = true;
 	}
-	
-	
+	public void setGridSize(Integer size){
+		this.gridSize=size;
+	}
+	public void setPaused(boolean paused){
+		this.paused=paused;
+	}
+	public void reset(){
+		earthRepresentation = new EarthRepresentation(gridSize);
+		gridcellsSurface1 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
+		gridcellsSurface2 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
+		
+		Initialize();
+		running = true;
+		paused = false;
+	}
 
 	//Initialize GridCells.
 	public void Initialize()
@@ -132,8 +147,9 @@ public class HeatedEarthSimulation implements Runnable
 		// Add code to compute diffusion
 		// What is the stabilization criteria?
 		running=true;
+		paused = false;
 		while(running){
-			
+			while(!paused){
 			
 			
 		diffuse(gridcellsSurface1, gridcellsSurface2);
@@ -158,7 +174,7 @@ public class HeatedEarthSimulation implements Runnable
 		gridcellsSurface2 = temp;
 		temp = null;
 			
-			
+			}
 		}
 		
 	}

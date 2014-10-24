@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.Paint;
 import java.awt.Rectangle;
+import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 
 import javax.swing.BorderFactory;
@@ -27,15 +28,16 @@ public class HeatedEarthPresentation extends JPanel {
 	private boolean paused;
 	private BlockingQueue<Message> queue;
 	private HeatedEarthSimulation simulation= null;
-
+	private Long startTime;
 	private Dimension size;
 	private int lon = 360;
 	private int lat = 180;
 	private boolean testing;
 	private Integer sunsLongitude = 0;
-
+	private JLabel time;
 	private static final long serialVersionUID = 1L;
 	private String path = "images/worldmap.png";
+	private Long lastupdate=null;
 
 	public HeatedEarthPresentation(int gridSpacing,
 			BlockingQueue<Message> queue, JTextField displayRate, boolean paused) {
@@ -44,7 +46,7 @@ public class HeatedEarthPresentation extends JPanel {
 		this.displayRate = displayRate;
 		this.gridSize = gridSpacing;
 		this.paused = paused;
-
+		
 		img = new ImageIcon(path).getImage();
 		size = new Dimension(img.getWidth(null), img.getHeight(null));
 		setPreferredSize(size);
@@ -53,21 +55,27 @@ public class HeatedEarthPresentation extends JPanel {
 		setSize(size);
 		setLayout(null);
 	}
-
+	public void setTime(JLabel time){
+		this.time=time;
+	}
 	public void setTesting(boolean testing) {
 		this.testing = testing;
 	}
 
 	public void setGridSize(int gridSize) {
 		this.gridSize = gridSize;
+		
+	}
+	public void reset(){
 		initGrid(gridSize);
 	}
-
 	public void setPaused(boolean paused) {
 		this.paused = paused;
 	}
 
 	public void setRunning(boolean running) {
+
+		startTime=(new Date()).getTime();
 		this.running = running;
 	}
 
@@ -99,9 +107,11 @@ public class HeatedEarthPresentation extends JPanel {
 					Message update = queue.take();
 					grid = update.getGrid();
 					sunsLongitude = update.getSunsLongitude().intValue();
-					this.repaint();
-					//this.revalidate();
-					Thread.sleep(Integer.valueOf(displayRate.getText()));
+					if(lastupdate==null ||  ((new Date()).getTime()-lastupdate)>Integer.valueOf(displayRate.getText())){
+						this.repaint();
+						lastupdate=(new Date()).getTime();
+					}
+					
 				} catch (InterruptedException ex) {
 					Thread.currentThread().interrupt();
 				}
@@ -117,13 +127,12 @@ public class HeatedEarthPresentation extends JPanel {
 			sunsLongitude = update.getSunsLongitude().intValue();
 			this.repaint();
 			System.out.println("presentation updating.");
-			//this.revalidate();
 		} catch (InterruptedException ex) {
 			Thread.currentThread().interrupt();
 		}
 	}
 
-	// draws the grid everytime repaint() or revalidate() are called on this
+	// draws the grid everytime repaint() are called on this
 	// obect
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -147,6 +156,11 @@ public class HeatedEarthPresentation extends JPanel {
 			g2d.setColor(new Color(255, 255, 0, 100));
 			Long newLong = (long) ((((float) sunsLongitude + 180) / 360) * size.width);
 			g2d.fillOval(newLong.intValue(), size.height / 2, 100, 100);
+		}
+		if(time!=null){
+		Long runningTime = ((new Date()).getTime() - startTime)/1000;
+		 time.setText(runningTime.intValue() +" s");
+		 time.repaint();
 		}
 	}
 
