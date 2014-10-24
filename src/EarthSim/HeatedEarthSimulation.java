@@ -8,7 +8,8 @@ public class HeatedEarthSimulation implements Runnable
 	static GridCell[][] gridcellsSurface2;
 	private BlockingQueue<Message> queue;
 	
-	int timeInterval=0;
+	static int timeInterval=0;
+	static int timeOfDay=0;
 	static EarthRepresentation earthRepresentation;
 	GridCell gc;
 	private boolean running; //copied this from TestSimulator
@@ -55,6 +56,8 @@ public class HeatedEarthSimulation implements Runnable
 
 	}
 	
+	
+
 	private void setNeighborsData(GridCell [][] grid, int i, int j)
 	{
 		GridCell cell = grid[i][j];
@@ -91,6 +94,12 @@ public class HeatedEarthSimulation implements Runnable
 	    System.out.println("gs , rows, cols : " + earthRepresentation.getGS() + " " + earthRepresentation.getRows() + " " + earthRepresentation.getCols());
 		System.out.println("Latitude :" + cell.getLatitude());
 		System.out.println("Longtitude :" + cell.getLongtitude());
+		double lat_att, lon_att;
+		lat_att = Math.cos(Math.toRadians(cell.getLatitude()));
+		lon_att = Math.cos(Math.toRadians(cell.getLongtitude())) < 0 ?  0 : Math.cos(Math.toRadians(cell.getLongtitude()));
+		System.out.println("Lat Attenuation:" + lat_att);
+		System.out.println("Lon Attenuation:" + lon_att);
+		System.out.println("Total Attenuation:" + lat_att * lon_att);
 		System.out.println("top :" + cell.getLt());
 		System.out.println("base :" + cell.getLb());
 		System.out.println("vertical side :" + cell.getLv());
@@ -103,7 +112,6 @@ public class HeatedEarthSimulation implements Runnable
 		System.out.println("*********************************");
 	}
 	 
-	
 
 	@Override
 	public void run() {
@@ -177,12 +185,14 @@ public class HeatedEarthSimulation implements Runnable
 			}
 		}
 		
-		SunRepresentation.sunLocation = SunRepresentation.sunLocation + 15;
+		//advance sun according to interval
+		timeOfDay = (timeOfDay +  timeInterval) % 1440;
+		SunRepresentation.sunLocation = (timeOfDay/4 )-180;
 		
-		if (SunRepresentation.sunLocation > 180)
-		{
-			SunRepresentation.sunLocation = 0;
-		}
+//		if (SunRepresentation.sunLocation > 179)
+//		{
+//			SunRepresentation.sunLocation = SunRepresentation.sunLocation - 360; 
+//		}
 		
 	}
 	

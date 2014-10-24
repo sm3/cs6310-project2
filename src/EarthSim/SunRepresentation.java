@@ -5,7 +5,7 @@ public class SunRepresentation {
 	
 	
 	static long sunLocation = 0;
-	static final double sunHeatOutput = 278;
+	static final double sunHeatOutput = 288; //TODO - Kelly reset to 278?
 	/*
 	 *     sun
 	 *    /|  <------ theta 
@@ -21,19 +21,16 @@ public class SunRepresentation {
 	{
 		
 		///----c165----*195-----x210-------
-		
-		double cellLongitudeFromSun = 0;
+		double longitudeDiffCosine = 0;
 				
-		if ( Math.abs (sunLocation - Math.abs( cell.getLongtitude())) >= 90)
-		{
-			cellLongitudeFromSun = 90;
-		}
-		else
-		{
-			cellLongitudeFromSun = Math.abs(sunLocation - cell.getLongtitude());
-		}
+		longitudeDiffCosine = Math.cos(Math.toRadians(sunLocation - cell.getLongtitude()));
 		
-		return sunHeatOutput * Math.cos(cell.getLatitude()) * Math.cos(cellLongitudeFromSun);
+		//if the cosine is negative, then the difference is greater than 90 degrees, 
+		//meaning cell is on dark side - so we will multiply sunHeat by zero
+		if (longitudeDiffCosine < 0)
+			longitudeDiffCosine = 0;
+		
+		return sunHeatOutput * Math.cos(Math.toRadians(cell.getLatitude())) * longitudeDiffCosine;
 		
 	}
 	

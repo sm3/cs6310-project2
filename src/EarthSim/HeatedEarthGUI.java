@@ -126,7 +126,7 @@ public class HeatedEarthGUI extends JFrame {
 						start.setIcon(new ImageIcon("images/play.png"));
 					}
 					repaint();
-					revalidate();	
+//					revalidate();	
 				}
 			}
 		});
@@ -145,7 +145,7 @@ public class HeatedEarthGUI extends JFrame {
 				queue.clear();
 				paused=true;
 				repaint();
-				revalidate();
+//				revalidate();
 			}
 		});
 		displayControls.add(stop);
@@ -309,7 +309,7 @@ public class HeatedEarthGUI extends JFrame {
 					sim.setRunning(false);
 				queue.clear();
 				repaint();
-				revalidate();
+//				revalidate();
 				
 				
 				display.setGridSize(Integer.valueOf(gridSize.getText()));

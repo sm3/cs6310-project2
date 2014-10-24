@@ -5,6 +5,7 @@ public class EarthRepresentation {
 	
 	private static int eradius = 6371000; // in meters
 	private static double esurfaceArea = 5.10072E14;
+	private static double esurfaceAreaSummed = 0; //because SUM of area of trapezoids != esurfaceArea  !!
 	private static double ecircumference =40030140;
 	private static double eAreaVisibleToSun = 2.55036E14;
 	private int gs;
@@ -102,18 +103,18 @@ public class EarthRepresentation {
 	//calculate cell's vertical side lv
 	public double calcCVerticalSide()
 	{
-		return ecircumference*p;
+		return ecircumference/p;
 	}
 	
 	//calculate cell's base lb
 	public double calcCBase(int row)
 	{
-		return Math.cos(getOriginLatitude(row))*calcCVerticalSide();
+		return Math.cos(Math.toRadians(getOriginLatitude(row)))*calcCVerticalSide();
 	}
 	//calculate cell's top side
 	public double calcCTop(int row)
 	{
-		return Math.cos(getOriginLatitude(row) +gs)*calcCVerticalSide();
+		return Math.cos(Math.toRadians(getOriginLatitude(row) +gs))*calcCVerticalSide();
 	}
 	
 	//calculate altitude of the cell
@@ -122,7 +123,7 @@ public class EarthRepresentation {
 		double lv = calcCVerticalSide();
 		double lb = calcCBase(row);
 		double lt = calcCTop(row);
-		return Math.sqrt(Math.pow(lv,2) - (1/4)*Math.pow((lb - lt),2));
+		return Math.sqrt(Math.pow(lv,2) - Math.pow((lb - lt),2)/4.0);
 	}
 	
 	//perimeter of a cell
@@ -146,12 +147,31 @@ public class EarthRepresentation {
 	//proportion of earth's surface area taken by a cell
 	public double calcCSurfaceArea(int row)
 	{
-		return calcCArea(row)/esurfaceArea;
+		return calcCArea(row)/getSummedArea();
 	}
 	
 	public double getArea()
 	{
-		return esurfaceArea;
+		//use summed value when we need it
+		//return esurfaceArea;
+		return getSummedArea();
+		
+	}
+	
+	public double getSummedArea()
+	{
+		//calculate and store this on first use
+		if( esurfaceAreaSummed == 0)
+		{
+			double entireColumnArea = 0;
+			for (int i = 0; i < getRows();i++)
+			{
+				entireColumnArea += calcCArea(i);
+			}
+			//now multiply by the number of columns
+			esurfaceAreaSummed = entireColumnArea * getCols();
+		}
+		return esurfaceAreaSummed;
 	}
 	
 	public int getXCoordinate(int col)
@@ -212,8 +232,8 @@ public class EarthRepresentation {
 		double temperatureDueToSun = SunRepresentation.calculateTemperatureDueToSun(cell);
 		double temperatureDueToCooling = SunRepresentation.calculateTemperatureDueToCooling(cell, this);
 		
-		double temperateCooledPerHour = 23.16;
-		double timePassed = 1;
+		double temperateCooledPerHour = 23.16;//TODO - Kelly - where does this number come from?
+		double timePassed = 1;//TODO - Kelly - where does this number come from? Should it be timeInterval?
 		
 		double percentageOfCooling = temperatureDueToCooling / initialTemperature;
 		
@@ -225,7 +245,7 @@ public class EarthRepresentation {
 		
 		if ( temperatureDueToSun != 0.0 )
 		{
-			cellTemperature = (cellTemperature + temperatureDueToSun) / 2;
+			cellTemperature = (cellTemperature + temperatureDueToSun) / 2;//avg current temp with sun cause temp
 		}
 		
 		if (Double.isNaN(cellTemperature) )

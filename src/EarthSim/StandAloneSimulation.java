@@ -16,7 +16,7 @@ public class StandAloneSimulation extends HeatedEarthSimulation {
 	public static void main(String[] args) {
 	
 		
-		StandAloneSimulation sim = new StandAloneSimulation(15, 15, null);
+		StandAloneSimulation sim = new StandAloneSimulation(18, 20, null);
 		
 		diffuse(gridcellsSurface1, gridcellsSurface2);
 			
@@ -32,7 +32,7 @@ public class StandAloneSimulation extends HeatedEarthSimulation {
 			System.out.println(" ");
 			for(int j=0; j<earthRepresentation.getCols(); j++)
 			{		
-				System.out.print(gridcellsSurface1[i][j].getTemp() + " ");
+				System.out.printf("%.12f ",gridcellsSurface1[i][j].getTemp() );
 			}
 		}
 		
@@ -45,7 +45,7 @@ public class StandAloneSimulation extends HeatedEarthSimulation {
 			System.out.println(" ");
 			for(int j=0; j<earthRepresentation.getCols(); j++)
 			{		
-				System.out.print(gridcellsSurface1[i][j].getLatitude() +", " + gridcellsSurface1[i][j].getLongtitude() + " ; ");
+				System.out.printf("% 5.1f, % 5.1f; ",gridcellsSurface1[i][j].getLatitude() , gridcellsSurface1[i][j].getLongtitude() );
 			}
 		}
 		

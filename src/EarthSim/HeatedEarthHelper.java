@@ -69,12 +69,12 @@ public class HeatedEarthHelper
 	//calculate cell's base lb
 	public double calcCBase(int row)
 	{
-		return Math.cos(getOriginLatitude(row))*calcCVerticalSide();
+		return Math.cos(Math.toRadians(getOriginLatitude(row)))*calcCVerticalSide();
 	}
 	//calculate cell's top side
 	public double calcCTop(int row)
 	{
-		return Math.cos(getOriginLatitude(row) +gs)*calcCVerticalSide();
+		return Math.cos(Math.toRadians(getOriginLatitude(row) +gs))*calcCVerticalSide();
 	}
 	
 	//calculate altitude of the cell
