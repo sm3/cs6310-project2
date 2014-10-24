@@ -7,7 +7,8 @@ public class HeatedEarthSimulation implements Runnable
 	static GridCell[][] gridcellsSurface1;
 	static GridCell[][] gridcellsSurface2;
 	private BlockingQueue<Message> queue;
-	
+	private HeatedEarthPresentation presentation=null;
+
 	int timeInterval=0;
 	static EarthRepresentation earthRepresentation;
 	GridCell gc;
@@ -102,8 +103,28 @@ public class HeatedEarthSimulation implements Runnable
 		System.out.println("*********************************");
 	}
 	 
-	
-
+	public void setPresentation(HeatedEarthPresentation p){
+		presentation = p;
+	}
+	public void update(){
+		System.out.println("Simulation updating.");
+		this.diffuse(gridcellsSurface1, gridcellsSurface2);
+		
+		
+		try {
+			queue.put(new Message(prepareOutput(gridcellsSurface2),SunRepresentation.sunLocation));
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		GridCell [][] temp = gridcellsSurface1;
+		
+		gridcellsSurface1 = gridcellsSurface2;
+		gridcellsSurface2 = temp;
+		temp = null;
+	}
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -120,7 +141,10 @@ public class HeatedEarthSimulation implements Runnable
 		try {
 			
 			queue.put(new Message(prepareOutput(gridcellsSurface2),SunRepresentation.sunLocation));
-			
+			if(presentation!=null){
+				System.out.println("Presentation update");
+				presentation.update();
+			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

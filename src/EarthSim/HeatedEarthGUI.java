@@ -49,6 +49,7 @@ public class HeatedEarthGUI extends JFrame {
 	JTextField displayRate = new JTextField();
 	final JButton start = new JButton();
 	JPanel rightPanel = new JPanel();
+	private String initiative;
 	private boolean testing=false;
 	private JLabel time = new JLabel();
 	private Long startTime;
@@ -63,9 +64,10 @@ public class HeatedEarthGUI extends JFrame {
 		super();
 		this.presentationOwnThread=presentationThread;
 		this.simulatorOwnThread=simulatorOwnThread;
-		queue=new ArrayBlockingQueue<Message>(bufferSize);
+		this.queue=new ArrayBlockingQueue<Message>(bufferSize);
+		this.initiative = initiative;
 		display = new HeatedEarthPresentation(0,queue,displayRate,paused);
-
+		
 	}
 
 	public void displayGui()
@@ -75,6 +77,14 @@ public class HeatedEarthGUI extends JFrame {
 		this.setTitle("Heated Earth Simulation");
 		this.setResizable(false);
 		this.setVisible(true);
+		sim = new HeatedEarthSimulation(Integer.valueOf(gridSize.getText()),Integer.valueOf(simTimeStep.getText()),queue);
+		System.out.println(initiative);
+		if("S".equalsIgnoreCase(initiative)){
+			sim.setPresentation(display);
+		}else if("P".equalsIgnoreCase(initiative)){
+			System.out.println("setting sim on display");
+			display.setSimulation(sim);
+		}
 
 	}
 	public void setTesting(boolean testing){
@@ -305,8 +315,7 @@ public class HeatedEarthGUI extends JFrame {
 			public void actionPerformed(ActionEvent e)
 			{
 				display.setRunning(false);
-				if(sim!=null)
-					sim.setRunning(false);
+				sim.setRunning(false);
 				queue.clear();
 				repaint();
 				revalidate();
@@ -328,7 +337,6 @@ public class HeatedEarthGUI extends JFrame {
 		queue.clear();
 		start.setIcon(new ImageIcon("images/pause.png"));
 		paused=false;
-		sim = new HeatedEarthSimulation(Integer.valueOf(gridSize.getText()),Integer.valueOf(simTimeStep.getText()),queue);
 		updateTime();
 		if(simulatorOwnThread){	
 			new Thread()
@@ -336,25 +344,39 @@ public class HeatedEarthGUI extends JFrame {
 				@Override
 				public void run()
 				{
+					if("S".equalsIgnoreCase(initiative) || "G".equalsIgnoreCase(initiative)){
+					System.out.println("Simulator thread");
 					sim.run();
+					}
 
 				}
 			}.start();
 
-		}else{
-			sim.run();
 		}
+		
 		if(presentationOwnThread){
 			new Thread()
 			{
 				@Override
 				public void run()
-				{
-					display.run();
+				{	if("P".equalsIgnoreCase(initiative) || "G".equalsIgnoreCase(initiative)){
+						System.out.println("Presentation thread");
+						display.run();
+					}
 				}
 			}.start();
-		}else{
+		}
+		if("P".equalsIgnoreCase(initiative) || "G".equalsIgnoreCase(initiative)){
+		if(!presentationOwnThread){
+			System.out.println("Presentation");
 			display.run();
+		}
+		}
+		if("S".equalsIgnoreCase(initiative) || "G".equalsIgnoreCase(initiative)){
+		if(!simulatorOwnThread){	
+			System.out.println("Simulator");
+			sim.run();
+		}
 		}
 	}
 	public void updateTime(){

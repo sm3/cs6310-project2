@@ -26,6 +26,8 @@ public class HeatedEarthPresentation extends JPanel {
 	private boolean running;
 	private boolean paused;
 	private BlockingQueue<Message> queue;
+	private HeatedEarthSimulation simulation= null;
+
 	private Dimension size;
 	private int lon = 360;
 	private int lat = 180;
@@ -79,7 +81,9 @@ public class HeatedEarthPresentation extends JPanel {
 		}
 
 	}
-
+	public void setSimulation(HeatedEarthSimulation s){
+		simulation = s;
+	}
 	// Starts the presentation updating
 	public void run() {
 		initGrid(gridSize);
@@ -88,6 +92,10 @@ public class HeatedEarthPresentation extends JPanel {
 		while (running) {
 			if (!paused) {
 				try {
+					if(simulation!=null){
+						System.out.println("Simulation update");
+						simulation.update();
+					}
 					Message update = queue.take();
 					grid = update.getGrid();
 					sunsLongitude = update.getSunsLongitude().intValue();
@@ -106,7 +114,9 @@ public class HeatedEarthPresentation extends JPanel {
 		try {
 			Message update = queue.take();
 			grid = update.getGrid();
+			sunsLongitude = update.getSunsLongitude().intValue();
 			this.repaint();
+			System.out.println("presentation updating.");
 			//this.revalidate();
 		} catch (InterruptedException ex) {
 			Thread.currentThread().interrupt();
