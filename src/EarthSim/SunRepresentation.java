@@ -6,6 +6,7 @@ public class SunRepresentation {
 	
 	static long sunLocation = 0;
 	static final double sunHeatOutput = 288; //TODO - Kelly reset to 278?
+	static final double sunHeatOutput1 = 1; //TODO - Kelly reset to 278?
 	/*
 	 *     sun
 	 *    /|  <------ theta 
@@ -17,7 +18,7 @@ public class SunRepresentation {
 	 * 
 	 */
 	
-	public static double calculateTemperatureDueToSun(GridCell cell)
+	public static double calculateTemperatureDueToSun(GridCell cell, EarthRepresentation earthRepresentation)
 	{
 		
 		///----c165----*195-----x210-------
@@ -30,7 +31,9 @@ public class SunRepresentation {
 		if (longitudeDiffCosine < 0)
 			longitudeDiffCosine = 0;
 		
-		return sunHeatOutput * Math.cos(Math.toRadians(cell.getCenterLatitude() )) * longitudeDiffCosine;
+		double timeOffset = ((double)earthRepresentation.getTimeInterval() )/ 60.0 ;
+		
+		return sunHeatOutput1 * timeOffset * Math.cos(Math.toRadians(cell.getCenterLatitude() )) * longitudeDiffCosine;
 		
 	}
 	
@@ -51,9 +54,11 @@ public class SunRepresentation {
 		
 		double relativeTemperatureFactor = cellTemperature/averageCellTemperature;
 		
-		double temperatureFromCooling = relativeSizeFactor*-1  * relativeTemperatureFactor * sunHeatOutput; // might be 288 instead of avg cell temp
+//		double temperatureFromCooling = relativeSizeFactor*-1  * relativeTemperatureFactor * sunHeatOutput; // might be 288 instead of avg cell temp
 		
-		
+		double timeOffset = ((double)earthRepresentation.getTimeInterval() )/ 60.0 ;
+		double totalheat = sunHeatOutput1 * earthRepresentation.getNumberOfCells() / 2.0 * .406867508241966 * timeOffset;
+		double temperatureFromCooling = -1.0 * totalheat / earthRepresentation.getNumberOfCells() * relativeSizeFactor * relativeTemperatureFactor ;
 		
 		
 		return temperatureFromCooling;

@@ -15,16 +15,23 @@ public class StandAloneSimulation extends HeatedEarthSimulation {
 	
 	public static void main(String[] args) {
 	
+		StandAloneSimulation sim = new StandAloneSimulation(5, 15, null);
+
 		
-		StandAloneSimulation sim = new StandAloneSimulation(18, 20, null);
+		GridCell [][] temp;
 		
+		//
+		for (int k=0; k < 4*24*365; k++)
+		{
+		//perform diffusion
 		diffuse(gridcellsSurface1, gridcellsSurface2);
 			
-		GridCell [][] temp = gridcellsSurface1;
-		
+		//swap out grids
+		temp = gridcellsSurface1;
 		gridcellsSurface1 = gridcellsSurface2;
 		gridcellsSurface2 = temp;
 		temp = null;
+		}
 		
 
 		for (int i =0; i<earthRepresentation.getRows(); i++)
@@ -39,7 +46,7 @@ public class StandAloneSimulation extends HeatedEarthSimulation {
 		System.out.println(" ");
 		System.out.println(" ");
 		
-		
+		//print grid coords
 		for (int i =0; i<earthRepresentation.getRows(); i++)
 		{
 			System.out.println(" ");
@@ -49,6 +56,10 @@ public class StandAloneSimulation extends HeatedEarthSimulation {
 			}
 		}
 		
+		System.out.println(" ");
+		//print earths average temperature
+		earthRepresentation.calculateAverageTemperature(gridcellsSurface1);
+		System.out.println("Avg Temp" +earthRepresentation.getAverageTemperature());
 	}
 
 }

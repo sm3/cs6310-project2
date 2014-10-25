@@ -8,6 +8,7 @@ public class EarthRepresentation {
 	private static double esurfaceAreaSummed = 0; //because SUM of area of trapezoids != esurfaceArea  !!
 	private static double ecircumference =40030140;
 	private static double eAreaVisibleToSun = 2.55036E14;
+	private int timeInterval;
 	private int gs;
 	private int p; //proportion of equator used by one unit of gs
 	
@@ -17,9 +18,10 @@ public class EarthRepresentation {
 	
 	double sunLocation = 0;
 	
-	public EarthRepresentation (int gridSpacing)
+	public EarthRepresentation (int gridSpacing, int interval)
 	{
 		this.gs= gridSpacing;
+		this.timeInterval = interval;
 		p = 360/gs;
 	}
 	public int getCols()
@@ -40,6 +42,10 @@ public class EarthRepresentation {
 	public int getGS()
 	{
 		return this.gs;
+	}
+	public int getTimeInterval()
+	{
+		return this.timeInterval;
 	}
 	
 	
@@ -229,15 +235,15 @@ public class EarthRepresentation {
 	{
 		
 		double initialTemperature = cell.getTemp();
-		double temperatureDueToSun = SunRepresentation.calculateTemperatureDueToSun(cell);
+		double temperatureDueToSun = SunRepresentation.calculateTemperatureDueToSun(cell, this);
 		double temperatureDueToCooling = SunRepresentation.calculateTemperatureDueToCooling(cell, this);
 		
-		double temperateCooledPerHour = 23.16;//TODO - Kelly - where does this number come from?
-		double timePassed = 1;//TODO - Kelly - where does this number come from? Should it be timeInterval?
+		//double temperateCooledPerHour = 23.16;//TODO - Kelly - where does this number come from?
+		//double timePassed = 1;//TODO - Kelly - where does this number come from? Should it be timeInterval?
 		
-		double percentageOfCooling = temperatureDueToCooling / initialTemperature;
+		//double percentageOfCooling = temperatureDueToCooling / initialTemperature;
 		
-		double actualCooling = percentageOfCooling * temperateCooledPerHour * timePassed;
+		//double actualCooling = percentageOfCooling * temperateCooledPerHour * timePassed;
 		
 		double temperatureOfNeighbors = cell.getNeighborsAverageTemp();
 		
@@ -245,7 +251,7 @@ public class EarthRepresentation {
 		
 		if ( temperatureDueToSun != 0.0 )
 		{
-			cellTemperature = (cellTemperature + temperatureDueToSun) / 2;//avg current temp with sun cause temp
+			cellTemperature = (cellTemperature + temperatureDueToSun); // / 2;//avg current temp with sun cause temp
 		}
 		
 		if (Double.isNaN(cellTemperature) )
@@ -256,8 +262,7 @@ public class EarthRepresentation {
 		}
 		
 		
-		
-		cellTemperature = cellTemperature + actualCooling;
+		cellTemperature = cellTemperature + temperatureDueToCooling;
 			
 		cellTemperature = (cellTemperature +  temperatureOfNeighbors) /2;
 

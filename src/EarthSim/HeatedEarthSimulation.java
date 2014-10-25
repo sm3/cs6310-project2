@@ -22,7 +22,7 @@ public class HeatedEarthSimulation implements Runnable
 		 this.queue=queue;
 		 this.gridSize=gs;
 		 timeInterval = interval;
-		 earthRepresentation = new EarthRepresentation(gs);
+		 earthRepresentation = new EarthRepresentation(gs, interval);
 		 gridcellsSurface1 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
 		 gridcellsSurface2 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
 		
@@ -36,7 +36,7 @@ public class HeatedEarthSimulation implements Runnable
 		this.paused=paused;
 	}
 	public void reset(){
-		earthRepresentation = new EarthRepresentation(gridSize);
+		earthRepresentation = new EarthRepresentation(gridSize, timeInterval);
 		gridcellsSurface1 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
 		gridcellsSurface2 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
 		
