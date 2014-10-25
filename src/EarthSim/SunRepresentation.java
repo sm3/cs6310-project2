@@ -6,7 +6,8 @@ public class SunRepresentation {
 	
 	static long sunLocation = 0;
 	static final double sunHeatOutput = 288; //TODO - Kelly reset to 278?
-	static final double sunHeatOutput1 = 1; //TODO - Kelly reset to 278?
+	static final double sunHeatOutput1 = 3; //TODO - max rise in temperature per hour
+
 	/*
 	 *     sun
 	 *    /|  <------ theta 
@@ -57,8 +58,12 @@ public class SunRepresentation {
 //		double temperatureFromCooling = relativeSizeFactor*-1  * relativeTemperatureFactor * sunHeatOutput; // might be 288 instead of avg cell temp
 		
 		double timeOffset = ((double)earthRepresentation.getTimeInterval() )/ 60.0 ;
-		double totalheat = sunHeatOutput1 * earthRepresentation.getNumberOfCells() / 2.0 * .406867508241966 * timeOffset;
-		double temperatureFromCooling = -1.0 * totalheat / earthRepresentation.getNumberOfCells() * relativeSizeFactor * relativeTemperatureFactor ;
+		//total attenuation for a sunfacing cells is approx (number of cells /2) * Cos(66)
+		//double attenuationSum = earthRepresentation.getNumberOfCells() / 2.0 * .406867508241966;
+		//to simplify the calculations - and since we will divide by number of cells to get average anyway, we use this constant
+//		double totalheat = sunHeatOutput1 * attenuationConstant * timeOffset; 
+		double attenuationConstant = .406867508241966 /2.0;
+		double temperatureFromCooling = -1.0 * sunHeatOutput1 * attenuationConstant * timeOffset  * relativeSizeFactor * relativeTemperatureFactor ;
 		
 		
 		return temperatureFromCooling;
