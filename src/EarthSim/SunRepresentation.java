@@ -30,7 +30,7 @@ public class SunRepresentation {
 		if (longitudeDiffCosine < 0)
 			longitudeDiffCosine = 0;
 		
-		return sunHeatOutput * Math.cos(Math.toRadians(cell.getLatitude())) * longitudeDiffCosine;
+		return sunHeatOutput * Math.cos(Math.toRadians(cell.getCenterLatitude() )) * longitudeDiffCosine;
 		
 	}
 	

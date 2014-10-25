@@ -8,7 +8,7 @@ public class GridCell
     private GridCell south;
     double temp = 0.00;
     double prevTemp = 0.00;
-    private  double latitude, longtitude;
+    private  double latitude, longtitude, ctrLatitude;
     private double lv,lb, lt, h, perimeter, area;
     private double proportion;
     private int xCoordinate, yCoordinate;
@@ -89,6 +89,15 @@ public class GridCell
 
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
+	}
+
+	public double getCenterLatitude() {
+		return ctrLatitude;
+	}
+
+
+	public void setCenterLatitude(double latitude) {
+		this.ctrLatitude = latitude;
 	}
 
 

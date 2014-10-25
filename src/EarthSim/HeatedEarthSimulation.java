@@ -89,6 +89,7 @@ public class HeatedEarthSimulation implements Runnable
 		
 		
 		cell.setLatitude(earthRepresentation.getOriginLatitude(i));
+		cell.setCenterLatitude(earthRepresentation.getOriginLatitude(i)+(gridSize/2));
 		cell.setLongtitude(earthRepresentation.getOriginLongtitude(j));
 		cell.setLt(earthRepresentation.calcCTop(i));
 		cell.setLb(earthRepresentation.calcCBase(i));

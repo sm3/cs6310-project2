@@ -45,7 +45,7 @@ public class StandAloneSimulation extends HeatedEarthSimulation {
 			System.out.println(" ");
 			for(int j=0; j<earthRepresentation.getCols(); j++)
 			{		
-				System.out.printf("% 5.1f, % 5.1f; ",gridcellsSurface1[i][j].getLatitude() , gridcellsSurface1[i][j].getLongtitude() );
+				System.out.printf("% 6.1f, % 7.1f; ",gridcellsSurface1[i][j].getLatitude() , gridcellsSurface1[i][j].getLongtitude() );
 			}
 		}
 		
