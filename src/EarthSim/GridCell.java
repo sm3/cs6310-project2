@@ -6,8 +6,8 @@ public class GridCell
     private GridCell east;
     private GridCell north;
     private GridCell south;
-    double temp = 0.00;
-    double prevTemp = 0.00;
+    private double temp = 0.00;
+    private double prevTemp = 0.00;
     private  double latitude, longtitude, ctrLatitude;
     private double lv,lb, lt, h, perimeter, area;
     private double proportion;
