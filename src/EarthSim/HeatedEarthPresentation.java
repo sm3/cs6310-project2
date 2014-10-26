@@ -153,7 +153,7 @@ public class HeatedEarthPresentation extends JPanel {
 						high=value.intValue();
 					if(value.intValue()<low)
 						low=value.intValue();
-					Double v = (grid[i][j] - 282) / 7 * (-1);
+					Double v = (grid[i][j] - 282) / 6 * (-1);
 					System.out.println("low: "+low +" high: "+high+" Current Temp:"+ value.toString()+" Color: "+v);
 					Color c = Color.getHSBColor(.666f * v.floatValue(), 1f, 1f);
 
@@ -165,7 +165,6 @@ public class HeatedEarthPresentation extends JPanel {
 				}
 			}
 			g2d.setColor(new Color(255, 255, 0, 100));
-			sunsLongitude*=-1;
 			Long newLong = (long) ((((float) sunsLongitude + 180) / 360) * size.width);
 			g2d.fillOval(newLong.intValue(), size.height / 2, 100, 100);
 		}
