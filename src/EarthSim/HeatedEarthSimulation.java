@@ -234,5 +234,9 @@ public class HeatedEarthSimulation implements Runnable
 	public void setRunning(boolean running){
 		this.running=running;
 	}
+	public void setTimeStep(Integer interval) {
+		 timeInterval = interval;
+		
+	}
 	
 }

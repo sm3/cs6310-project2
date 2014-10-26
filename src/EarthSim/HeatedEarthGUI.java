@@ -209,7 +209,7 @@ public class HeatedEarthGUI extends JFrame {
 		smallGrid.add(gridSizeLabel);
 		gridSize.setFont(new Font("Arial", 0, textSize));
 		gridSize.setToolTipText("Enter an Integer greater than zero.");
-		gridSize.setText("6");
+		gridSize.setText("15");
 		gridSize.setInputVerifier(new InputVerifier()
 		{
 			@Override
@@ -223,9 +223,9 @@ public class HeatedEarthGUI extends JFrame {
 						value--;
 					}
 					gridSize.setText(value+"");
-					if (value < 0)
+					if (value < 1)
 					{
-						gridSize.setText("");
+						gridSize.setText("1");
 						return false;
 					} else
 					{
@@ -255,9 +255,9 @@ public class HeatedEarthGUI extends JFrame {
 				try
 				{
 					Integer value = Integer.valueOf(text);
-					if (value < 0 || value > 1440)
+					if (value < 1 || value > 1440)
 					{
-						simTimeStep.setText("");
+						simTimeStep.setText("1");
 						return false;
 					} else
 					{
@@ -287,9 +287,9 @@ public class HeatedEarthGUI extends JFrame {
 				try
 				{
 					Integer value = Integer.valueOf(text);
-					if (value < 0 || value > 10000)
+					if (value < 1 || value > 10000)
 					{
-						displayRate.setText("");
+						displayRate.setText("1");
 						return false;
 					} else
 					{
@@ -319,6 +319,7 @@ public class HeatedEarthGUI extends JFrame {
 				
 				display.setGridSize(Integer.valueOf(gridSize.getText()));
 				sim.setGridSize(Integer.valueOf(gridSize.getText()));
+				sim.setTimeStep(Integer.valueOf(simTimeStep.getText()));
 				run();
 			}
 		});

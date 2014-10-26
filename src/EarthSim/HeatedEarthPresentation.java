@@ -109,11 +109,16 @@ public class HeatedEarthPresentation extends JPanel {
 					Message update = queue.take();
 					grid = update.getGrid();
 					sunsLongitude = update.getSunsLongitude().intValue();
-//					if(lastupdate==null ||  ((new Date()).getTime()-lastupdate)>Integer.valueOf(displayRate.getText())){
-						this.repaint();
-//						lastupdate=(new Date()).getTime();
-//					}
+					this.repaint();
+					if(displayRate.getText().equals("")){
+						displayRate.setText("1");
+					}
+					try{
 					Thread.currentThread().sleep(Integer.valueOf(displayRate.getText()));
+					}catch(NumberFormatException e){
+						Thread.currentThread().sleep(1);
+						
+					}
 					
 				} catch (InterruptedException ex) {
 					Thread.currentThread().interrupt();
