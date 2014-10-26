@@ -26,8 +26,6 @@ public class HeatedEarthSimulation implements Runnable
 		 gridcellsSurface1 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
 		 gridcellsSurface2 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
 		
-		 Initialize();
-		 running = true;
 	}
 	public void setGridSize(Integer size){
 		this.gridSize=size;
