@@ -30,6 +30,8 @@ public class HeatedEarthPresentation extends JPanel {
 	private HeatedEarthSimulation simulation= null;
 	private Long startTime;
 	private Dimension size;
+	int low=222;
+	int high=222;
 	private int lon = 360;
 	private int lat = 180;
 	private boolean testing;
@@ -107,10 +109,11 @@ public class HeatedEarthPresentation extends JPanel {
 					Message update = queue.take();
 					grid = update.getGrid();
 					sunsLongitude = update.getSunsLongitude().intValue();
-					if(lastupdate==null ||  ((new Date()).getTime()-lastupdate)>Integer.valueOf(displayRate.getText())){
+//					if(lastupdate==null ||  ((new Date()).getTime()-lastupdate)>Integer.valueOf(displayRate.getText())){
 						this.repaint();
-						lastupdate=(new Date()).getTime();
-					}
+//						lastupdate=(new Date()).getTime();
+//					}
+					Thread.currentThread().sleep(Integer.valueOf(displayRate.getText()));
 					
 				} catch (InterruptedException ex) {
 					Thread.currentThread().interrupt();
@@ -143,7 +146,13 @@ public class HeatedEarthPresentation extends JPanel {
 			Long width = new Long(size.width) / new Long(grid[0].length);
 			for (int i = 0; i < grid.length; i++) {
 				for (int j = 0; j < grid[0].length; j++) {
-					Double v = (grid[i][j] - 100) / 100 * (-1);
+					Double value =grid[i][j];
+					if(value.intValue()>high)
+						high=value.intValue();
+					if(value.intValue()<low)
+						low=value.intValue();
+					System.out.println("low: "+low +" high: "+high+" Current Temp:"+ value.toString());
+					Double v = (grid[i][j] - 285) / 6 * (-1);
 					Color c = Color.getHSBColor(.666f * v.floatValue(), 1f, 1f);
 
 					g2d.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 120));
@@ -154,6 +163,7 @@ public class HeatedEarthPresentation extends JPanel {
 				}
 			}
 			g2d.setColor(new Color(255, 255, 0, 100));
+			sunsLongitude*=-1;
 			Long newLong = (long) ((((float) sunsLongitude + 180) / 360) * size.width);
 			g2d.fillOval(newLong.intValue(), size.height / 2, 100, 100);
 		}

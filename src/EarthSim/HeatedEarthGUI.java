@@ -209,7 +209,7 @@ public class HeatedEarthGUI extends JFrame {
 		smallGrid.add(gridSizeLabel);
 		gridSize.setFont(new Font("Arial", 0, textSize));
 		gridSize.setToolTipText("Enter an Integer greater than zero.");
-		gridSize.setText("15");
+		gridSize.setText("6");
 		gridSize.setInputVerifier(new InputVerifier()
 		{
 			@Override
@@ -276,7 +276,7 @@ public class HeatedEarthGUI extends JFrame {
 		bottomLabel.setFont(new Font("Arial", 0, textSize));
 		smallGrid.add(bottomLabel);
 		displayRate.setFont(new Font("Arial", 0, textSize));
-		displayRate.setText("1");
+		displayRate.setText("100");
 		displayRate.setToolTipText("Enter an Integer between zero and 100.");
 		displayRate.setInputVerifier(new InputVerifier()
 		{
