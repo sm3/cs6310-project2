@@ -230,7 +230,7 @@ public class HeatedEarthSimulation implements Runnable
 		
 		//advance sun according to interval
 		timeOfDay = (timeOfDay +  timeInterval) % 1440;
-		SunRepresentation.sunLocation = (timeOfDay/4 )-180;
+		SunRepresentation.sunLocation = 180-(timeOfDay/4 );
 		
 //		if (SunRepresentation.sunLocation > 179)
 //		{
