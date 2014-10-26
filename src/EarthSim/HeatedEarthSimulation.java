@@ -8,7 +8,7 @@ public class HeatedEarthSimulation implements Runnable
 	static GridCell[][] gridcellsSurface2;
 	private BlockingQueue<Message> queue;
 	static int timeInterval=0;
-	static int timeOfDay=0;
+	static int timeOfDay=720;
 	private HeatedEarthPresentation presentation=null;
 	static EarthRepresentation earthRepresentation;
 	GridCell gc;
