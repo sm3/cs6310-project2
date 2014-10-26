@@ -8,7 +8,7 @@ public class HeatedEarthSimulation implements Runnable
 	static GridCell[][] gridcellsSurface2;
 	private BlockingQueue<Message> queue;
 	static int timeInterval=0;
-	static int timeOfDay=0;
+	static int timeOfDay=720;
 	private HeatedEarthPresentation presentation=null;
 	static EarthRepresentation earthRepresentation;
 	GridCell gc;
@@ -163,12 +163,14 @@ public class HeatedEarthSimulation implements Runnable
 			while(!paused){
 			
 			
+		long currentSunLocation = SunRepresentation.sunLocation;
+		
 		diffuse(gridcellsSurface1, gridcellsSurface2);
 		
 			
 		try {
 			
-			queue.put(new Message(prepareOutput(gridcellsSurface2),SunRepresentation.sunLocation));
+			queue.put(new Message(prepareOutput(gridcellsSurface2),currentSunLocation));
 			if(presentation!=null){
 				System.out.println("Presentation update");
 				presentation.update();
