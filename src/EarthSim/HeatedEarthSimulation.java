@@ -39,7 +39,7 @@ public class HeatedEarthSimulation implements Runnable
 		earthRepresentation = new EarthRepresentation(gridSize, timeInterval);
 		gridcellsSurface1 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
 		gridcellsSurface2 = new GridCell[earthRepresentation.getRows()][earthRepresentation.getCols()];
-		
+		timeOfDay=720;
 		Initialize();
 		running = true;
 		paused = false;
