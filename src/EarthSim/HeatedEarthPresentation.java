@@ -142,22 +142,6 @@ public class HeatedEarthPresentation extends JPanel {
 		g.drawImage(img, 0, 0, null);
 		Graphics2D g2d = (Graphics2D) g;
 		if (gridSize != 0) {
-			for (int i = 0; i < grid.length; i++) {
-				for (int j = 0; j < grid[0].length; j++) {
-					Double value =grid[i][j];
-					if(value==0){
-						continue;
-					}
-					if(low < high-10){
-						low++;
-					}
-					if(value.intValue()>high){
-						high=value.intValue();
-					}
-					if(value.intValue()<low)
-						low=value.intValue();
-				}
-			}
 			Long height = new Long(size.height) / new Long(grid.length);
 			Long width = new Long(size.width) / new Long(grid[0].length);
 			for (int i = 0; i < grid.length; i++) {
@@ -166,11 +150,11 @@ public class HeatedEarthPresentation extends JPanel {
 					if(value==0){
 						continue;
 					}
-//					if(value.intValue()>high)
-//						high=value.intValue();
-//					if(value.intValue()<low)
-//						low=value.intValue();
-					Double v = (grid[i][j] - low) / (high-low) * (-1);
+					if(value.intValue()>high)
+						high=value.intValue();
+					if(value.intValue()<low)
+						low=value.intValue();
+					Double v = (grid[i][j] - 282) / 6 * (-1);
 					System.out.println("low: "+low +" high: "+high+" Current Temp:"+ value.toString()+" Color: "+v);
 					Color c = Color.getHSBColor(.666f * v.floatValue(), 1f, 1f);
 
