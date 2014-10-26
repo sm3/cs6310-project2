@@ -276,7 +276,7 @@ public class HeatedEarthGUI extends JFrame {
 		bottomLabel.setFont(new Font("Arial", 0, textSize));
 		smallGrid.add(bottomLabel);
 		displayRate.setFont(new Font("Arial", 0, textSize));
-		displayRate.setText("100");
+		displayRate.setText("10");
 		displayRate.setToolTipText("Enter an Integer between zero and 100.");
 		displayRate.setInputVerifier(new InputVerifier()
 		{
