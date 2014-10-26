@@ -132,11 +132,20 @@ public class HeatedEarthSimulation implements Runnable
 	}
 	public void update(){
 		System.out.println("Simulation updating.");
+
+		this.rotateEarth();
+	}
+
+	public void rotateEarth()
+	{
+		
+		long currentSunLocation = SunRepresentation.sunLocation;
+		
 		this.diffuse(gridcellsSurface1, gridcellsSurface2);
 		
 		
 		try {
-			queue.put(new Message(prepareOutput(gridcellsSurface2),SunRepresentation.sunLocation));
+			queue.put(new Message(prepareOutput(gridcellsSurface2), currentSunLocation));
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,42 +157,24 @@ public class HeatedEarthSimulation implements Runnable
 		gridcellsSurface1 = gridcellsSurface2;
 		gridcellsSurface2 = temp;
 		temp = null;
+		
+		
+		
+		
 	}
-
+	
+	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		// Add code to compute diffusion
-		// What is the stabilization criteria?
+
 		running=true;
 		paused = false;
 		while(running){
 			while(!paused){
 			
-			
-		long currentSunLocation = SunRepresentation.sunLocation;
 		
-		diffuse(gridcellsSurface1, gridcellsSurface2);
-		
-			
-		try {
-			
-			queue.put(new Message(prepareOutput(gridcellsSurface2),currentSunLocation));
-			if(presentation!=null){
-				System.out.println("Presentation update");
-				presentation.update();
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		GridCell [][] temp = gridcellsSurface1;
-		
-		gridcellsSurface1 = gridcellsSurface2;
-		gridcellsSurface2 = temp;
-		temp = null;
+		this.rotateEarth();
+
 			
 			}
 		}
