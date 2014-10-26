@@ -94,7 +94,7 @@ public class EarthRepresentation {
 
 //		if (col < this.getCols()/2)
 //		{
-			oLong = 180 - (initialSpace + (gs* col) );
+			oLong = (initialSpace + (gs* col) ) - 180;
 //		}
 //		else
 //		{
