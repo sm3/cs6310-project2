@@ -163,12 +163,14 @@ public class HeatedEarthSimulation implements Runnable
 			while(!paused){
 			
 			
+		long currentSunLocation = SunRepresentation.sunLocation;
+		
 		diffuse(gridcellsSurface1, gridcellsSurface2);
 		
 			
 		try {
 			
-			queue.put(new Message(prepareOutput(gridcellsSurface2),SunRepresentation.sunLocation));
+			queue.put(new Message(prepareOutput(gridcellsSurface2),currentSunLocation));
 			if(presentation!=null){
 				System.out.println("Presentation update");
 				presentation.update();
