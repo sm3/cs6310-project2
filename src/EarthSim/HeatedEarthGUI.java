@@ -375,5 +375,24 @@ public class HeatedEarthGUI extends JFrame {
 		}
 		}
 	}
+	
+	public void autorun(int gs, int  timeInterval, int display_rate )
+	{
+		//set values according to passed in
+		gridSize.setText(Integer.toString(gs));
+		simTimeStep.setText(Integer.toString(timeInterval));
+		displayRate.setText(Integer.toString(display_rate));
+		
+		
+		display.setRunning(false);
+		sim.setRunning(false);
+		queue.clear();
+		repaint();
+		
+		display.setGridSize(Integer.valueOf(gridSize.getText()));
+		sim.setGridSize(Integer.valueOf(gridSize.getText()));
+		sim.setTimeStep(Integer.valueOf(simTimeStep.getText()));
+		run();
+	}
 
 }

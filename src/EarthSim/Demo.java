@@ -8,8 +8,10 @@ public class Demo
 	public static void main(String[] args) {
 	
 		int blen = 0;
-	    boolean  s, p, r, t, b; 
-	    s = p = r = t = b = false; 
+	    boolean  s, p, r, t, b, auto; 
+	    s = p = r = t = b = auto = false;
+	    int gs, time, displayRate;
+	    gs = time = displayRate = 0;
 	   
 		 for (int i = 0; i < args.length; i++) {
 		        if (args[i].equalsIgnoreCase("-s")) {
@@ -20,6 +22,12 @@ public class Demo
 		            r = true;
 		        } else if (args[i].equalsIgnoreCase("-t")) {
 		            t = true;
+		        } else if (args[i].equalsIgnoreCase("-auto")) {
+		            auto = true;
+		            gs = Integer.valueOf(args[i+1]);
+		            time = Integer.valueOf(args[i+2]);
+		            displayRate = Integer.valueOf(args[i+3]);
+		            
 		        } else if (args[i].equalsIgnoreCase("-b")) {
 		            try {
 		                blen = Integer.parseInt(args[i+1]);
@@ -53,9 +61,14 @@ public class Demo
     	 initiative="S";
      else
     	 initiative="G";
-    	 
+
      HeatedEarthGUI gui = new HeatedEarthGUI(p, s, initiative, blen);
-     gui.displayGui();
+     	gui.displayGui();
+     if(auto){
+    	 gui.autorun(gs, time, displayRate);
+    	
+    	 
+     }
 	 }
      
      
