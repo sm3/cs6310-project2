@@ -106,26 +106,26 @@ public class HeatedEarthSimulation implements Runnable
 		
 		grid[i][j] = cell;
 		
-		System.out.println("*********************************");
-	    System.out.println("gs , rows, cols : " + earthRepresentation.getGS() + " " + earthRepresentation.getRows() + " " + earthRepresentation.getCols());
-		System.out.println("Latitude :" + cell.getLatitude());
-		System.out.println("Longtitude :" + cell.getLongtitude());
-		double lat_att, lon_att;
-		lat_att = Math.cos(Math.toRadians(cell.getLatitude()));
-		lon_att = Math.cos(Math.toRadians(cell.getLongtitude())) < 0 ?  0 : Math.cos(Math.toRadians(cell.getLongtitude()));
-		System.out.println("Lat Attenuation:" + lat_att);
-		System.out.println("Lon Attenuation:" + lon_att);
-		System.out.println("Total Attenuation:" + lat_att * lon_att);
-		System.out.println("top :" + cell.getLt());
-		System.out.println("base :" + cell.getLb());
-		System.out.println("vertical side :" + cell.getLv());
-		System.out.println("area :" + cell.getArea());
-		System.out.println("perimeter :" + cell.getPerimeter());
-		System.out.println("Height :" + cell.getH());
-		System.out.println("Surface area :" + cell.getProportion());
-		System.out.println("xCoordinate :" + cell.getxCoordinate());
-		System.out.println("yCoordinate :" + cell.getyCoordinate());
-		System.out.println("*********************************");
+//		System.out.println("*********************************");
+//	    System.out.println("gs , rows, cols : " + earthRepresentation.getGS() + " " + earthRepresentation.getRows() + " " + earthRepresentation.getCols());
+//		System.out.println("Latitude :" + cell.getLatitude());
+//		System.out.println("Longtitude :" + cell.getLongtitude());
+//		double lat_att, lon_att;
+//		lat_att = Math.cos(Math.toRadians(cell.getLatitude()));
+//		lon_att = Math.cos(Math.toRadians(cell.getLongtitude())) < 0 ?  0 : Math.cos(Math.toRadians(cell.getLongtitude()));
+//		System.out.println("Lat Attenuation:" + lat_att);
+//		System.out.println("Lon Attenuation:" + lon_att);
+//		System.out.println("Total Attenuation:" + lat_att * lon_att);
+//		System.out.println("top :" + cell.getLt());
+//		System.out.println("base :" + cell.getLb());
+//		System.out.println("vertical side :" + cell.getLv());
+//		System.out.println("area :" + cell.getArea());
+//		System.out.println("perimeter :" + cell.getPerimeter());
+//		System.out.println("Height :" + cell.getH());
+//		System.out.println("Surface area :" + cell.getProportion());
+//		System.out.println("xCoordinate :" + cell.getxCoordinate());
+//		System.out.println("yCoordinate :" + cell.getyCoordinate());
+//		System.out.println("*********************************");
 	}
 	 
 
