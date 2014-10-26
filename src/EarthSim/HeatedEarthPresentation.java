@@ -142,6 +142,8 @@ public class HeatedEarthPresentation extends JPanel {
 		g.drawImage(img, 0, 0, null);
 		Graphics2D g2d = (Graphics2D) g;
 		if (gridSize != 0) {
+			high=280;
+			low=280;
 			Long height = new Long(size.height) / new Long(grid.length);
 			Long width = new Long(size.width) / new Long(grid[0].length);
 			for (int i = 0; i < grid.length; i++) {
@@ -151,8 +153,8 @@ public class HeatedEarthPresentation extends JPanel {
 						high=value.intValue();
 					if(value.intValue()<low)
 						low=value.intValue();
-					System.out.println("low: "+low +" high: "+high+" Current Temp:"+ value.toString());
-					Double v = (grid[i][j] - 285) / 6 * (-1);
+					Double v = (grid[i][j] - 282) / 7 * (-1);
+					System.out.println("low: "+low +" high: "+high+" Current Temp:"+ value.toString()+" Color: "+v);
 					Color c = Color.getHSBColor(.666f * v.floatValue(), 1f, 1f);
 
 					g2d.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 120));
@@ -163,6 +165,7 @@ public class HeatedEarthPresentation extends JPanel {
 				}
 			}
 			g2d.setColor(new Color(255, 255, 0, 100));
+			sunsLongitude*=-1;
 			Long newLong = (long) ((((float) sunsLongitude + 180) / 360) * size.width);
 			g2d.fillOval(newLong.intValue(), size.height / 2, 100, 100);
 		}
