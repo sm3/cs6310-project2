@@ -164,6 +164,8 @@ public class HeatedEarthGUI extends JFrame {
 				sim.setRunning(false);
 				display.setRunning(false);
 				paused = false;
+				queue.clear();
+				repaint();
 				run();
 
 			}
