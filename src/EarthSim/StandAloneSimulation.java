@@ -9,7 +9,7 @@ public class StandAloneSimulation extends HeatedEarthSimulation {
 	public StandAloneSimulation(int gs, int interval,
 			BlockingQueue<Message> queue) {
 		super(gs, interval, queue);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	
@@ -20,7 +20,6 @@ public class StandAloneSimulation extends HeatedEarthSimulation {
 		
 		GridCell [][] temp;
 		
-		//
 		for (int k=0; k < 4*24*365; k++)
 		{
 		//perform diffusion

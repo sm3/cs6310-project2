@@ -192,7 +192,6 @@ public class HeatedEarthSimulation implements Runnable
 			{		
 
 				gridOutput[i][j] = grid[i][j].getTemp();
-				//System.out.println(" temp for grid["+ i + "]["+ j+"]  "+ grid[i][j].getTemp());
 				
 			}
 		}
@@ -214,19 +213,13 @@ public class HeatedEarthSimulation implements Runnable
 			{		
 
 				grid2[i][j].setTemp(earthRepresentation.calculateCellTemperature(grid1[i][j]));
-				//System.out.println("Diffusion - cell temp :" + grid2[i][j].getTemp());
-				
+	
 			}
 		}
 		
 		//advance sun according to interval
 		timeOfDay = (timeOfDay +  timeInterval) % 1440;
 		SunRepresentation.sunLocation = 180-(timeOfDay/4 );
-		
-//		if (SunRepresentation.sunLocation > 179)
-//		{
-//			SunRepresentation.sunLocation = SunRepresentation.sunLocation - 360; 
-//		}
 		
 	}
 	

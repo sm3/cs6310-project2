@@ -1,6 +1,7 @@
 package EarthSim;
 
 public class Message {
+	
 	private double[][] grid;
 	private Long sunsLongitude;
 	public Message(double[][] grid, Long sunsLongitude) {
