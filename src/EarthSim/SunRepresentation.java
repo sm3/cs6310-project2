@@ -6,7 +6,7 @@ public class SunRepresentation {
 	
 	static long sunLocation = 0;
 	static final double sunHeatOutput = 288; //TODO - Kelly reset to 278?
-	static final double sunHeatOutput1 = 3; //TODO - max rise in temperature per hour
+	static final double sunHeatOutput1 = 4; //TODO - max rise in temperature per hour
 
 	/*
 	 *     sun
@@ -63,7 +63,10 @@ public class SunRepresentation {
 		//to simplify the calculations - and since we will divide by number of cells to get average anyway, we use this constant
 //		double totalheat = sunHeatOutput1 * attenuationConstant * timeOffset; 
 		double attenuationConstant = .406867508241966 /2.0;
-		double temperatureFromCooling = -1.0 * sunHeatOutput1 * attenuationConstant * timeOffset  * relativeSizeFactor * relativeTemperatureFactor ;
+		
+//		ignore relative size
+//		double temperatureFromCooling = -1.0 * sunHeatOutput1 * attenuationConstant * timeOffset  * relativeSizeFactor * relativeTemperatureFactor ;
+		double temperatureFromCooling = -1.0 * sunHeatOutput1 * attenuationConstant * timeOffset  * relativeTemperatureFactor ;
 		
 		
 		return temperatureFromCooling;
