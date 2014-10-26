@@ -240,12 +240,12 @@ public class HeatedEarthGUI extends JFrame {
 		});
 		smallGrid.add(gridSize);
 
-		JLabel topLabel = new JLabel("Simulation Time Step(ms):");
+		JLabel topLabel = new JLabel("Simulation Time Step(m):");
 		topLabel.setFont(new Font("Arial", 0, textSize));
 		smallGrid.add(topLabel);
 		simTimeStep.setFont(new Font("Arial", 0, textSize));
 		simTimeStep.setText("1");
-		simTimeStep.setToolTipText("Enter an Integer between zero and 100.");
+		simTimeStep.setToolTipText("Enter an Integer between zero and 1440.");
 		simTimeStep.setInputVerifier(new InputVerifier()
 		{
 			@Override
@@ -255,7 +255,7 @@ public class HeatedEarthGUI extends JFrame {
 				try
 				{
 					Integer value = Integer.valueOf(text);
-					if (value < 0 || value > 10000)
+					if (value < 0 || value > 1440)
 					{
 						simTimeStep.setText("");
 						return false;
@@ -277,7 +277,7 @@ public class HeatedEarthGUI extends JFrame {
 		smallGrid.add(bottomLabel);
 		displayRate.setFont(new Font("Arial", 0, textSize));
 		displayRate.setText("10");
-		displayRate.setToolTipText("Enter an Integer between zero and 100.");
+		displayRate.setToolTipText("Enter an Integer between zero and 1000.");
 		displayRate.setInputVerifier(new InputVerifier()
 		{
 			@Override
