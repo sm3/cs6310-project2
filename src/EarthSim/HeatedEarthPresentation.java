@@ -166,7 +166,7 @@ public class HeatedEarthPresentation extends JPanel {
 			}
 			g2d.setColor(new Color(255, 255, 0, 100));
 			Long newLong = (long) ((((float) sunsLongitude + 180) / 360) * size.width);
-			g2d.fillOval(newLong.intValue(), size.height / 2, 100, 100);
+			g2d.fillOval(newLong.intValue(), (grid.length / 2-2)*height.intValue(), 100, 100);
 		}
 		if(time!=null && startTime!=null){
 		Long runningTime = ((new Date()).getTime() - startTime)/1000;
