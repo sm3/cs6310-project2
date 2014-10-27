@@ -23,7 +23,7 @@ public class HeatedEarthPresentation extends JPanel {
 	private double[][] grid;
 	private Image img;
 	private int gridSize;
-	private JTextField displayRate;
+	private Integer displayRate;
 	private boolean running;
 	private boolean paused;
 	private BlockingQueue<Message> queue;
@@ -42,7 +42,7 @@ public class HeatedEarthPresentation extends JPanel {
 	private Long lastupdate=null;
 
 	public HeatedEarthPresentation(int gridSpacing,
-			BlockingQueue<Message> queue, JTextField displayRate, boolean paused) {
+			BlockingQueue<Message> queue, Integer displayRate, boolean paused) {
 		super();
 		this.queue = queue;
 		this.displayRate = displayRate;
@@ -110,15 +110,7 @@ public class HeatedEarthPresentation extends JPanel {
 					grid = update.getGrid();
 					sunsLongitude = update.getSunsLongitude().intValue();
 					this.repaint();
-					if(displayRate.getText().equals("")){
-						displayRate.setText("1");
-					}
-					try{
-					Thread.currentThread().sleep(Integer.valueOf(displayRate.getText()));
-					}catch(NumberFormatException e){
-						Thread.currentThread().sleep(1);
-						
-					}
+					Thread.currentThread().sleep(displayRate);
 					
 				} catch (InterruptedException ex) {
 					Thread.currentThread().interrupt();
@@ -127,14 +119,24 @@ public class HeatedEarthPresentation extends JPanel {
 
 		}
 	}
-
+    public void setDisplayRate(Integer displayRate){
+    	this.displayRate=displayRate;
+    }
 	public void update() {
 		try {
+			if(lastupdate==null)
+				lastupdate=(new Date()).getTime();
+			
+			while((new Date()).getTime() -lastupdate<displayRate)
+				Thread.currentThread().sleep(1);
+			
+
+			lastupdate=(new Date()).getTime();
 			Message update = queue.take();
 			grid = update.getGrid();
 			sunsLongitude = update.getSunsLongitude().intValue();
 			this.repaint();
-			System.out.println("presentation updating.");
+			
 		} catch (InterruptedException ex) {
 			Thread.currentThread().interrupt();
 		}

@@ -173,8 +173,11 @@ public class HeatedEarthSimulation implements Runnable
 			while(!paused){
 			
 		
-		this.rotateEarth();
-
+				this.rotateEarth();
+				if(presentation!=null){
+					System.out.println("Simulation update");
+					presentation.update();
+				}
 			
 			}
 		}

@@ -60,7 +60,7 @@ public class HeatedEarthGUI extends JFrame {
 		this.simulatorOwnThread=simulatorOwnThread;
 		this.queue=new ArrayBlockingQueue<Message>(bufferSize);
 		this.initiative = initiative;
-		display = new HeatedEarthPresentation(0,queue,displayRate,paused);
+		display = new HeatedEarthPresentation(0,queue,1,paused);
 		
 	}
 
@@ -292,11 +292,20 @@ public class HeatedEarthGUI extends JFrame {
 					if (value < 1 || value > 10000)
 					{
 						displayRate.setText("1");
-						return false;
-					} else
-					{
-						return true;
+						display.setDisplayRate(1);
+					} 
+					
+					try{
+						Integer.valueOf(displayRate.getText());
+					}catch(NumberFormatException e){
+						displayRate.setText("1");
+						display.setDisplayRate(1);
+							
 					}
+					display.setDisplayRate(Integer.valueOf(displayRate.getText()));
+					
+						return true;
+					
 				} catch (NumberFormatException e)
 				{
 					displayRate.setText("");
@@ -339,6 +348,7 @@ public class HeatedEarthGUI extends JFrame {
 		queue.clear();
 		start.setIcon(new ImageIcon("images/pause.png"));
 		paused=false;
+		display.setDisplayRate(Integer.valueOf(displayRate.getText()));
 		
 		if(simulatorOwnThread){	
 			new Thread()
