@@ -18,7 +18,7 @@ Run the program from the project folder as
 
     java -cp <path to the executable> EarthSim.Demo <options> 
 
-For best results for a project compiled using Eclipse, from the cs6310-project2 directory try:
+For best results for a project compiled using Eclipse or the instructions above, from the cs6310-project2 directory try:
 
     java -cp ./bin EarthSim.Demo -s -p -r
     
