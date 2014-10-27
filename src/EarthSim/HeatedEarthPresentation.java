@@ -118,7 +118,7 @@ public class HeatedEarthPresentation extends JPanel {
 					Thread.currentThread().sleep(displayRate);
 					
 					statsTimer++;
-					if(statsTimer == 20)
+					if(statsTimer == 1400)
 					{
 						LOGGER.log(Level.INFO, Analyzer.getMemoryStats());
 						statsTimer = 0;

@@ -142,7 +142,7 @@ public class HeatedEarthSimulation implements Runnable
 		temp = null;
 		
 		statsTimer++;
-		if(statsTimer == 20)
+		if(statsTimer == 1400)
 		{
 			LOGGER.log(Level.INFO, Analyzer.getMemoryStats());
 			statsTimer = 0;
