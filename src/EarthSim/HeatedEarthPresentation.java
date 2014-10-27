@@ -11,6 +11,8 @@ import java.awt.Paint;
 import java.awt.Rectangle;
 import java.util.Date;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -40,6 +42,8 @@ public class HeatedEarthPresentation extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private String path = "images/worldmap.png";
 	private Long lastupdate=null;
+	
+	private final static Logger LOGGER = Logger.getLogger(HeatedEarthPresentation.class.getName()); 
 
 	public HeatedEarthPresentation(int gridSpacing,
 			BlockingQueue<Message> queue, Integer displayRate, boolean paused) {
@@ -111,8 +115,10 @@ public class HeatedEarthPresentation extends JPanel {
 					sunsLongitude = update.getSunsLongitude().intValue();
 					this.repaint();
 					Thread.currentThread().sleep(displayRate);
+					LOGGER.log(Level.INFO, Analyzer.getMemoryStats());
 					
-				} catch (InterruptedException ex) {
+				} catch (InterruptedException ex) 
+				{
 					Thread.currentThread().interrupt();
 				}
 			}

@@ -1,6 +1,8 @@
 
 package EarthSim;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class HeatedEarthSimulation implements Runnable
 {
@@ -16,6 +18,7 @@ public class HeatedEarthSimulation implements Runnable
 	private boolean running; //copied this from TestSimulator
 	private boolean paused;
 	
+	private final static Logger LOGGER = Logger.getLogger(HeatedEarthSimulation.class.getName()); 
 	
 	public HeatedEarthSimulation(int gs, int interval, BlockingQueue<Message> queue)
 	{
@@ -99,35 +102,14 @@ public class HeatedEarthSimulation implements Runnable
 		cell.setxCoordinate(i);
 		cell.setyCoordinate(j);
 		cell.setTemp(288);
-		 
-		 //TODO: set previous temperature of the cell, current temperature, and neighbors.
-		
 		grid[i][j] = cell;
 		
-//		System.out.println("*********************************");
-//	    System.out.println("gs , rows, cols : " + earthRepresentation.getGS() + " " + earthRepresentation.getRows() + " " + earthRepresentation.getCols());
-//		System.out.println("Latitude :" + cell.getLatitude());
-//		System.out.println("Longtitude :" + cell.getLongtitude());
-//		double lat_att, lon_att;
-//		lat_att = Math.cos(Math.toRadians(cell.getLatitude()));
-//		lon_att = Math.cos(Math.toRadians(cell.getLongtitude())) < 0 ?  0 : Math.cos(Math.toRadians(cell.getLongtitude()));
-//		System.out.println("Lat Attenuation:" + lat_att);
-//		System.out.println("Lon Attenuation:" + lon_att);
-//		System.out.println("Total Attenuation:" + lat_att * lon_att);
-//		System.out.println("top :" + cell.getLt());
-//		System.out.println("base :" + cell.getLb());
-//		System.out.println("vertical side :" + cell.getLv());
-//		System.out.println("area :" + cell.getArea());
-//		System.out.println("perimeter :" + cell.getPerimeter());
-//		System.out.println("Height :" + cell.getH());
-//		System.out.println("Surface area :" + cell.getProportion());
-//		System.out.println("xCoordinate :" + cell.getxCoordinate());
-//		System.out.println("yCoordinate :" + cell.getyCoordinate());
-//		System.out.println("*********************************");
+
 	}
 	 
 
-	public void setPresentation(HeatedEarthPresentation p){
+	public void setPresentation(HeatedEarthPresentation p)
+	{
 		presentation = p;
 	}
 	public void update(){
@@ -159,10 +141,11 @@ public class HeatedEarthSimulation implements Runnable
 		temp = null;
 		
 		
+		LOGGER.log(Level.INFO, Analyzer.getMemoryStats());
 		
 		
 	}
-	
+
 	
 	@Override
 	public void run() {
@@ -205,7 +188,8 @@ public class HeatedEarthSimulation implements Runnable
 	}
 	
 	
-	protected static void diffuse(GridCell[][] grid1, GridCell[][] grid2)
+	
+	protected void diffuse(GridCell[][] grid1, GridCell[][] grid2)
 	{
 		
 		earthRepresentation.calculateAverageTemperature(grid1);

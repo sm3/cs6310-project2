@@ -4,7 +4,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class StandAloneSimulation extends HeatedEarthSimulation {
 
-	
+
 	
 	public StandAloneSimulation(int gs, int interval,
 			BlockingQueue<Message> queue) {
