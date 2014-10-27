@@ -1,5 +1,7 @@
 
 package EarthSim;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +20,8 @@ public class HeatedEarthSimulation implements Runnable
 	private boolean running; //copied this from TestSimulator
 	private boolean paused;
 	private int statsTimer = 0;
-	
+	ArrayList<Long> waitList=new ArrayList<Long>();
+	ArrayList<Long> calcTimeList=new ArrayList<Long>();
 	private final static Logger LOGGER = Logger.getLogger(HeatedEarthSimulation.class.getName()); 
 	
 	public HeatedEarthSimulation(int gs, int interval, BlockingQueue<Message> queue)
@@ -72,7 +75,28 @@ public class HeatedEarthSimulation implements Runnable
 		
 
 	}
-	
+	public void printRunningInfo(){
+		Long totalTime = 0L;
+		int count=0;
+		if(!waitList.isEmpty()){
+			for(Long waitTime: waitList){
+				count++;
+				totalTime+=waitTime;
+			}
+			Long averageWait = totalTime/count;
+			System.out.println("Average simulation idle time: "+averageWait+" ms");
+		}
+		totalTime = 0L;
+		count=0;
+		if(!calcTimeList.isEmpty()){
+			for(Long waitTime: calcTimeList){
+				count++;
+				totalTime+=waitTime;
+			}
+			Long averageWait = totalTime/count;
+			System.out.println("Average simulation Calculation time: "+averageWait+" ms");
+		}
+	}
 	
 
 	private void setNeighborsData(GridCell [][] grid, int i, int j)
@@ -114,21 +138,22 @@ public class HeatedEarthSimulation implements Runnable
 		presentation = p;
 	}
 	public void update(){
-		System.out.println("Simulation updating.");
-
 		this.rotateEarth();
 	}
 
 	public void rotateEarth()
 	{
-		
+
+		Long beforeCalc = (new Date()).getTime();
 		long currentSunLocation = SunRepresentation.sunLocation;
 		
 		this.diffuse(gridcellsSurface1, gridcellsSurface2);
-		
+		calcTimeList.add((new Date()).getTime()-beforeCalc);
 		
 		try {
+			Long before = (new Date()).getTime();
 			queue.put(new Message(prepareOutput(gridcellsSurface2), currentSunLocation));
+			waitList.add((new Date()).getTime()-before);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -168,6 +193,7 @@ public class HeatedEarthSimulation implements Runnable
 			
 			}
 		}
+		
 		
 	}
 	

@@ -46,6 +46,8 @@ public class HeatedEarthPresentation extends JPanel {
 	private int statsTimer = 0;
 	private int stabilizationCounter=0;
 	private boolean hasPrintedStabilization=false;
+	ArrayList<Long> waitList=new ArrayList<Long>();
+	ArrayList<Long> displayTimeList=new ArrayList<Long>();
 	
 	
 	private final static Logger LOGGER = Logger.getLogger(HeatedEarthPresentation.class.getName()); 
@@ -69,9 +71,6 @@ public class HeatedEarthPresentation extends JPanel {
 	public void setTime(JLabel time){
 		this.time=time;
 	}
-	public void setTesting(boolean testing) {
-		this.testing = testing;
-	}
 
 	public void setGridSize(int gridSize) {
 		this.gridSize = gridSize;
@@ -89,6 +88,29 @@ public class HeatedEarthPresentation extends JPanel {
 		startTime=(new Date()).getTime();
 		hasPrintedStabilization=false;
 		this.running = running;
+
+	}
+	public void printRunningInfo(){
+		Long totalTime = 0L;
+		int count=0;
+		if(!waitList.isEmpty()){
+			for(Long waitTime: waitList){
+				count++;
+				totalTime+=waitTime;
+			}
+			Long averageWait = totalTime/count;
+			System.out.println("Average presentation idle time: "+averageWait+" ms");
+		}
+		totalTime = 0L;
+		count=0;
+		if(!displayTimeList.isEmpty()){
+			for(Long waitTime: displayTimeList){
+				count++;
+				totalTime+=waitTime;
+			}
+			Long averageWait = totalTime/count;
+			System.out.println("Average presentation display time: "+averageWait+" ms");
+		}
 	}
 
 	private void initGrid(int gridSpacing) {
@@ -108,12 +130,10 @@ public class HeatedEarthPresentation extends JPanel {
 	public void run() {
 		running = true;
 		paused = false;
-		ArrayList<Long> waitList=new ArrayList<Long>();
 		while (running) {
 			if (!paused) {
 				try {
 					if(simulation!=null){
-						System.out.println("Simulation update");
 						simulation.update();
 					}
 					Long before = (new Date()).getTime();
@@ -138,14 +158,7 @@ public class HeatedEarthPresentation extends JPanel {
 			}
 
 		}
-		Long totalTime = 0L;
-		int count=0;
-		for(Long waitTime: waitList){
-			count++;
-			totalTime+=waitTime;
-		}
-		Long averageWait = totalTime/count;
-		System.out.println("Average presentation idle time: "+averageWait+" ms");
+	
 	}
     public void setDisplayRate(Integer displayRate){
     	this.displayRate=displayRate;
@@ -160,20 +173,22 @@ public class HeatedEarthPresentation extends JPanel {
 			
 
 			lastupdate=(new Date()).getTime();
+			Long before = (new Date()).getTime();
 			Message update = queue.take();
+			waitList.add((new Date()).getTime()-before);
 			grid = update.getGrid();
 			sunsLongitude = update.getSunsLongitude().intValue();
 			this.repaint();
-			
+
 		} catch (InterruptedException ex) {
 			Thread.currentThread().interrupt();
 		}
 	}
 
-	// draws the grid everytime repaint() are called on this
-	// obect
+	// draws the grid everytime repaint() is called on this Ojbect
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		Long before = (new Date()).getTime();
 		g.drawImage(img, 0, 0, null);
 		Graphics2D g2d = (Graphics2D) g;
 		
@@ -234,6 +249,8 @@ public class HeatedEarthPresentation extends JPanel {
 		 time.setText(runningTime.intValue() +" s");
 		 time.repaint();
 		}
+		Long wait =(new Date()).getTime()-before;
+		displayTimeList.add(wait);
 	}
 
 	public boolean getRunning() {

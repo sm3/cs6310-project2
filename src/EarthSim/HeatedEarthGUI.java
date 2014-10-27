@@ -50,7 +50,6 @@ public class HeatedEarthGUI extends JFrame {
 	JTextField displayRate = new JTextField();
 	final JButton start = new JButton();
 	JPanel rightPanel = new JPanel();
-	private boolean testing=false;
 	private JLabel time = new JLabel();
 
 	public HeatedEarthGUI(boolean presentationThread, boolean simulatorOwnThread,String initiative,Integer bufferSize)
@@ -80,10 +79,6 @@ public class HeatedEarthGUI extends JFrame {
 		}
 		display.setTime(time);
 
-	}
-	public void setTesting(boolean testing){
-		this.testing=testing;
-		display.setTesting(testing);
 	}
 	public JPanel createMainGrid(){
 		JPanel pane = new JPanel(new GridBagLayout());
@@ -143,12 +138,23 @@ public class HeatedEarthGUI extends JFrame {
 
 			public void actionPerformed(ActionEvent e)
 			{
-
-				display.setRunning(false);
 				sim.setRunning(false);
+				sim.setPaused(true);
+				display.setRunning(false);
+				display.setPaused(true);
 				queue.clear();
 				paused=true;
 				repaint();
+
+				try {
+					Thread.currentThread().sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				sim.printRunningInfo();
+				display.printRunningInfo();
 
 			}
 		});
