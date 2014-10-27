@@ -43,6 +43,9 @@ public class HeatedEarthPresentation extends JPanel {
 	private String path = "images/worldmap.png";
 	private Long lastupdate=null;
 	private int statsTimer = 0;
+	private int stabilizationCounter=0;
+	private boolean hasPrintedStabilization=false;
+	
 	
 	private final static Logger LOGGER = Logger.getLogger(HeatedEarthPresentation.class.getName()); 
 
@@ -83,6 +86,7 @@ public class HeatedEarthPresentation extends JPanel {
 	public void setRunning(boolean running) {
 
 		startTime=(new Date()).getTime();
+		hasPrintedStabilization=false;
 		this.running = running;
 	}
 
@@ -101,7 +105,6 @@ public class HeatedEarthPresentation extends JPanel {
 	}
 	// Starts the presentation updating
 	public void run() {
-		initGrid(gridSize);
 		running = true;
 		paused = false;
 		while (running) {
@@ -163,6 +166,8 @@ public class HeatedEarthPresentation extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		
 		if (gridSize != 0) {
+			double prevLow=low;
+			double prevHigh=high;
 			high-=10;
 			low+=10;
 			for (int i = 0; i < grid.length; i++) {
@@ -179,6 +184,16 @@ public class HeatedEarthPresentation extends JPanel {
 						low=value;
 					}
 				}
+			}
+			if(!hasPrintedStabilization &&(int)prevHigh==(int)high && (int)prevLow==(int)low){
+				stabilizationCounter++;
+				if(stabilizationCounter>5){
+					Long totalTime = ((new Date()).getTime()-startTime);
+					System.out.println("Simulation stabilized in:"+totalTime.intValue()+" ms");
+					hasPrintedStabilization=true;
+				}
+			}else{
+				stabilizationCounter--;
 			}
 			Long height = new Long(size.height) / new Long(grid.length);
 			Long width = new Long(size.width) / new Long(grid[0].length);
