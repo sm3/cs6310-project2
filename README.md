@@ -15,5 +15,6 @@ Run  the program from the project folder as
 
 For best results, from the cs6310-project2 directory try:
 
-    java EarthSim.Demo -cp .\bin -s -p -r
-
+    java -cp ./bin EarthSim.Demo -s -p -r
+    
+Note: in windows it is necessary to change ./bin to .\bin
