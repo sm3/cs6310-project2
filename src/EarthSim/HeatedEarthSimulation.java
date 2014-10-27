@@ -187,7 +187,6 @@ public class HeatedEarthSimulation implements Runnable
 		
 				this.rotateEarth();
 				if(presentation!=null){
-					System.out.println("Simulation update");
 					presentation.update();
 				}
 			
