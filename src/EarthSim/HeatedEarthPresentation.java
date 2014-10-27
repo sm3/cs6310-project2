@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.Paint;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
@@ -107,6 +108,7 @@ public class HeatedEarthPresentation extends JPanel {
 	public void run() {
 		running = true;
 		paused = false;
+		ArrayList<Long> waitList=new ArrayList<Long>();
 		while (running) {
 			if (!paused) {
 				try {
@@ -114,7 +116,9 @@ public class HeatedEarthPresentation extends JPanel {
 						System.out.println("Simulation update");
 						simulation.update();
 					}
+					Long before = (new Date()).getTime();
 					Message update = queue.take();
+					waitList.add((new Date()).getTime()-before);
 					grid = update.getGrid();
 					sunsLongitude = update.getSunsLongitude().intValue();
 					this.repaint();
@@ -134,6 +138,14 @@ public class HeatedEarthPresentation extends JPanel {
 			}
 
 		}
+		Long totalTime = 0L;
+		int count=0;
+		for(Long waitTime: waitList){
+			count++;
+			totalTime+=waitTime;
+		}
+		Long averageWait = totalTime/count;
+		System.out.println("Average presentation idle time: "+averageWait+" ms");
 	}
     public void setDisplayRate(Integer displayRate){
     	this.displayRate=displayRate;
