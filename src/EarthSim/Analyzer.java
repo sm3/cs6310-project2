@@ -3,12 +3,14 @@ package EarthSim;
 
 
 	import java.io.*;
-	import java.nio.Buffer;
-	import java.util.ArrayList;
-	import java.util.Arrays;
+import java.nio.Buffer;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 	public class Analyzer {
+			
 	    public static void main(String[] args) {
+	    	
 	        ArrayList<String> sizes = new ArrayList<String>();
 	       
 	        ArrayList<String[]> options = new ArrayList<String[]>();
@@ -36,7 +38,7 @@ package EarthSim;
 	        
 	       
 	       
-	        sizes.add("5");
+	        sizes.add("1");
 	        
 	        int pcount = 0;
 
@@ -132,6 +134,22 @@ package EarthSim;
 	        }
 
 	    }
+	    
+	    
+		public static String getMemoryStats()
+		{
+			long MEGABYTE = 1024L * 1024L;
+		    // Get the Java runtime
+		    Runtime runtime = Runtime.getRuntime();
+		    // Run the garbage collector
+		    runtime.gc();
+		    // Calculate the used memory
+		    long memory = runtime.totalMemory() - runtime.freeMemory();
+		    String memStats = "\n Used memory is kbytes: " + memory/1024L + 
+		    		" \n" + "Used memory is megabytes: "  + memory/MEGABYTE + " \n";
+		    
+		    return memStats;
+		}
 }
 
 

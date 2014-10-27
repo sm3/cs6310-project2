@@ -17,6 +17,7 @@ public class HeatedEarthSimulation implements Runnable
 	int gridSize;
 	private boolean running; //copied this from TestSimulator
 	private boolean paused;
+	private int statsTimer = 0;
 	
 	private final static Logger LOGGER = Logger.getLogger(HeatedEarthSimulation.class.getName()); 
 	
@@ -140,9 +141,12 @@ public class HeatedEarthSimulation implements Runnable
 		gridcellsSurface2 = temp;
 		temp = null;
 		
-		
-		LOGGER.log(Level.INFO, Analyzer.getMemoryStats());
-		
+		statsTimer++;
+		if(statsTimer == 20)
+		{
+			LOGGER.log(Level.INFO, Analyzer.getMemoryStats());
+			statsTimer = 0;
+		}	
 		
 	}
 

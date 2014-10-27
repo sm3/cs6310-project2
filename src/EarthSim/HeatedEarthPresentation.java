@@ -42,6 +42,7 @@ public class HeatedEarthPresentation extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private String path = "images/worldmap.png";
 	private Long lastupdate=null;
+	private int statsTimer = 0;
 	
 	private final static Logger LOGGER = Logger.getLogger(HeatedEarthPresentation.class.getName()); 
 
@@ -115,7 +116,13 @@ public class HeatedEarthPresentation extends JPanel {
 					sunsLongitude = update.getSunsLongitude().intValue();
 					this.repaint();
 					Thread.currentThread().sleep(displayRate);
-					LOGGER.log(Level.INFO, Analyzer.getMemoryStats());
+					
+					statsTimer++;
+					if(statsTimer == 20)
+					{
+						LOGGER.log(Level.INFO, Analyzer.getMemoryStats());
+						statsTimer = 0;
+					}
 					
 				} catch (InterruptedException ex) 
 				{
