@@ -8,12 +8,17 @@ DESCRIPTION
 HOW TO USE
 ----------
 
-Compiling the code as per the instructions provided here https://www.udacity.com/wiki/saad/howto/tar 
-Run  the program from the project folder as
+Compile the code with the following commands:
+
+    cd cs6310-project2
+    mkdir bin
+    javac -d bin src/EarthSim/*.java
+    
+Run the program from the project folder as
 
     java -cp <path to the executable> EarthSim.Demo <options> 
 
-For best results, from the cs6310-project2 directory try:
+For best results for a project compiled using Eclipse, from the cs6310-project2 directory try:
 
     java -cp ./bin EarthSim.Demo -s -p -r
     
